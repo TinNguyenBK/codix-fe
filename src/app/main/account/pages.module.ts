@@ -7,7 +7,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ContactUsModule } from './contact-us/contact-us.module';
 import { TermAndConditionModule } from './term-and-condition/term-and-condition.module';
 import { ResentEmailModule } from './authentication/resent-email/resent-email.module';
-import { RegisterSupplierModule } from './authentication/register-supplier/register-supplier.module';
+import { RegisterUserModule } from './authentication/register-user/register-user.module';
 
 @NgModule({
     imports: [
@@ -18,7 +18,7 @@ import { RegisterSupplierModule } from './authentication/register-supplier/regis
         ContactUsModule,
         TermAndConditionModule,
         ResentEmailModule,
-        RegisterSupplierModule
+        RegisterUserModule
     ],
     exports:[],
     declarations: []

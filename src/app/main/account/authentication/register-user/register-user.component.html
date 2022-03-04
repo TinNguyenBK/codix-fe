@@ -18,8 +18,8 @@
             <form name="registerForm" [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit()" >
                 <mat-label class="secondary-text">Nickname <span style="color: red;">*</span></mat-label>
                 <mat-form-field appearance="none">
-                    <input matInput formControlName="mDisplayName" placeholder="Enter nickname">
-                    <div *ngIf="registerForm.get('mDisplayName').hasError('required') && is_summitted">
+                    <input matInput formControlName="nickname" placeholder="Enter nickname">
+                    <div *ngIf="registerForm.get('nickname').hasError('required') && is_summitted">
                         <app-alert>
                             <p>Please enter nickname.</p>
                         </app-alert>
@@ -27,9 +27,9 @@
                 </mat-form-field>
                 <mat-label class="secondary-text">Email <span style="color: red;">*</span></mat-label>
                 <mat-form-field appearance="none">
-                    <input  matInput formControlName="mEmail" placeholder="Enter email"  autocomplete="off" readonly 
+                    <input  matInput formControlName="email" placeholder="Enter email"  autocomplete="off" readonly 
                     onfocus="this.removeAttribute('readonly');" >
-                    <div *ngIf="registerForm.get('mEmail').hasError('required')  && is_summitted">
+                    <div *ngIf="registerForm.get('email').hasError('required')  && is_summitted">
                         <app-alert>
                             <p>Please enter email.</p>
                         </app-alert>
@@ -37,33 +37,33 @@
                 </mat-form-field>
                 <mat-label class="secondary-text">Phone <span style="color: red;">*</span></mat-label>
                 <mat-form-field appearance="none">
-                    <input matInput formControlName="mTelNumber1" placeholder="Enter Phone">
-                    <div *ngIf="registerForm.get('mTelNumber1').hasError('required') && is_summitted">
+                    <input matInput formControlName="phone" placeholder="Enter Phone">
+                    <div *ngIf="registerForm.get('phone').hasError('required') && is_summitted">
                         <app-alert>
                             <p>Please enter phone.</p>
                         </app-alert>
                     </div>
                 </mat-form-field>
                 <mat-label class="secondary-text">Country <span style="color: red;">*</span></mat-label>
-                <p-dropdown formControlName="mAreaId" [options]="listArea" (onChange)="changeArea($event)" filter="true"  class="area-dropdown" [style]="{'width':'100%', 'margin-top': '20px','margin-bottom': '20px'}" 
+                <p-dropdown formControlName="country" [options]="listArea" (onChange)="changeArea($event)" filter="true"  class="area-dropdown" [style]="{'width':'100%', 'margin-top': '20px','margin-bottom': '20px'}" 
                 optionLabel="mDisplayName" placeholder="Select country"></p-dropdown>
-                <div *ngIf="registerForm.get('mAreaId').hasError('required') && is_summitted">
+                <div *ngIf="registerForm.get('country').hasError('required') && is_summitted">
                     <app-alert>
                         <p>Please select country.</p>
                     </app-alert>
                 </div>
                 <mat-label class="secondary-text">Password <span style="color: red;">*</span></mat-label>
                 <mat-form-field appearance="none">
-                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter Password" formControlName="mPassword"  PasswordOnly>
+                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter Password" formControlName="password"  PasswordOnly>
                     <mat-icon  class="eye-icon"  matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     <div
-                        *ngIf="registerForm.get('mPassword').hasError('required')  && is_summitted">
+                        *ngIf="registerForm.get('password').hasError('required')  && is_summitted">
                         <app-alert>
                             <p>Please enter password.</p>
                         </app-alert>
                     </div>
                     <div
-                        *ngIf="!registerForm.get('mPassword').hasError('required') && registerForm.controls.mPassword.touched && registerForm.get('mPassword').hasError('minlength') && is_summitted">
+                        *ngIf="!registerForm.get('password').hasError('required') && registerForm.controls.password.touched && registerForm.get('password').hasError('minlength') && is_summitted">
                         <app-alert>
                             <p>Mật khẩu phải có ít nhất 8 ký tự.</p>
                         </app-alert>
@@ -71,16 +71,16 @@
                 </mat-form-field>
                 <mat-label class="secondary-text">Confirm password <span style="color: red;">*</span></mat-label>
                 <mat-form-field appearance="none">
-                    <input matInput [type]="hidereturn ? 'password' : 'text'" type="password" placeholder="Enter confirm password" formControlName="mConfirmPassword"  PasswordOnly>
+                    <input matInput [type]="hidereturn ? 'password' : 'text'" type="password" placeholder="Enter confirm password" formControlName="confirmpassword"  PasswordOnly>
                     <mat-icon  class="eye-icon"  matSuffix (click)="hidereturn = !hidereturn">{{hidereturn ? 'visibility_off' : 'visibility'}}</mat-icon>
                     <div
-                        *ngIf="registerForm.get('mConfirmPassword').hasError('required')  && is_summitted">
+                        *ngIf="registerForm.get('confirmpassword').hasError('required')  && is_summitted">
                         <app-alert>
                             <p>Please enter confirm password.</p>
                         </app-alert>
                     </div>
                     <div
-                        *ngIf="!registerForm.get('mConfirmPassword').hasError('required') &&  registerForm.get('mConfirmPassword').hasError('mustMatch') && registerForm.controls.mPassword.touched && is_summitted">
+                        *ngIf="!registerForm.get('confirmpassword').hasError('required') &&  registerForm.get('confirmpassword').hasError('mustMatch') && registerForm.controls.password.touched && is_summitted">
                         <app-alert>
                             <p>Confirm password not match.</p>
                         </app-alert>

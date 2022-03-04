@@ -1,6 +1,4 @@
 import { CheckNullOrUndefinedOrEmpty } from 'app/core/utils/common-function';
-
-import { isNullOrUndefined } from 'util';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import {
   FormBuilder,
@@ -15,26 +13,24 @@ import { fuseAnimations } from '@fuse/animations';
 import { SelectItem } from 'primeng/api';
 import { MustMatch } from '../_helper/must-match.validator';
 import { DialCodeComponent } from '../dial-code/dial-code.component';
-import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../../core/service/auth.service';
-import { User, UserNoRegister } from '../../../../core/models/user.model';
 import { environment } from 'environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { pattern } from 'app/core/enum/pattern';
 import { Title } from 'app/core/enum/title';
-import { Supplier } from '../../../../core/models/supplier.model';
 import { CommonDialogComponent } from "app/main/common-dialog/common-dialog.component";
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-register-supplier',
-  templateUrl: './register-supplier.component.html',
-  styleUrls: ['./register-supplier.component.scss'],
+  selector: 'app-register-user',
+  templateUrl: './register-user.component.html',
+  styleUrls: ['./register-user.component.scss'],
   encapsulation: ViewEncapsulation.Emulated,
   animations: fuseAnimations,
 })
-export class RegisterSupplierComponent implements OnInit {
+export class RegisterUserComponent implements OnInit {
   private _unsubscribeAll: Subject<any>;
   storageUrl = environment.storageUrl;
   registerForm: FormGroup;
@@ -95,33 +91,18 @@ export class RegisterSupplierComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this._formBuilder.group(
       {
-        role: [''],
-        mAreaId: ['', Validators.required],
-        mDisplayName: ['', Validators.required],
-        mEmail: ['', [Validators.required, , Validators.pattern(pattern.email)]],
-        mTaxCode: ['', Validators.required],
-        mAddress: ['', Validators.required],
-        mRegisteredBusinessAddress: ['', Validators.required],
-        // mDistrict: ['', Validators.required],
-        // mWard: ['', Validators.required],
-        mRepresentative1: ['', Validators.required],
-        mRepresentativeRole1: ['', Validators.required],
-        mTelNumber1: ['', [Validators.required, Validators.pattern(pattern.phone_number)]],
-        mRepresentative2: ['', Validators.required],
-        mRepresentativeRole2: ['', Validators.required],
-        mTelNumber2: ['', [Validators.required, Validators.pattern(pattern.phone_number)]],
-        mPassword: ['', [Validators.required, Validators.minLength(8)]],
-        mCertificate: [''],
-        mConfirmPassword: ['', [Validators.required]],
+        nickname: ['', Validators.required],
+        email: ['', [Validators.required, , Validators.pattern(pattern.email)]],
+        phone: ['', [Validators.required, Validators.pattern(pattern.phone_number)]],
+        country: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        confirmpassword: ['', [Validators.required]],
       },
       {
-        validator: MustMatch('mPassword', 'mConfirmPassword'),
+        validator: MustMatch('password', 'confirmpassword'),
       }
     );
 
-    this.registerForm.controls['role'].setValue('Nhà cung cấp');
-    // this.getArea()
-    
   }
 
   ngOnDestroy(): void {
@@ -132,30 +113,18 @@ export class RegisterSupplierComponent implements OnInit {
   
   onSubmit() {
     this.is_summitted = true;
-    this.registerForm.controls['mEmail'].enable();
     if (this.registerForm.invalid) {
       return;
     }
-    let supplier = {
-      mAreaId: this.areaId,
-      mDisplayName: this.registerForm.value.mDisplayName,
-      mTaxCode: this.registerForm.value.mTaxCode,
-      mAddress:  this.registerForm.value.mAddress,
-      mRegisteredBusinessAddress: this.registerForm.value.mRegisteredBusinessAddress,
-      mEmail:  this.registerForm.value.mEmail,
-      // mWard:  this.registerForm.value.mWard,
-      // mDistrict:  this.registerForm.value.mDistrict,
-      mRepresentative1:  this.registerForm.value.mRepresentative1,
-      mRepresentativeRole1:  this.registerForm.value.mRepresentativeRole1,
-      mTelNumber1:  this.registerForm.value.mTelNumber1,
-      mRepresentative2:  this.registerForm.value.mRepresentative2,
-      mRepresentativeRole2:  this.registerForm.value.mRepresentativeRole2,
-      mTelNumber2:  this.registerForm.value.mTelNumber2,
-      mPassword: this.registerForm.value.mPassword,
-      mCertificate: !CheckNullOrUndefinedOrEmpty(this.preSignedUrl) ? this.preSignedUrl.split('?')[0] : ''
+    let user = {
+      nickname: this.registerForm.value.nickname,
+      email:  this.registerForm.value.email,
+      phone:  this.registerForm.value.phone,
+      password: this.registerForm.value.password,
+      country: this.registerForm.value.country.mDisplayName,
     }
 
-    this.authService.registerSupplier(supplier).subscribe(response => {
+    this.authService.registerUser(user).subscribe(response => {
       if(response.status === 200) {
         this.router.navigate(["/auth/register-supplier-done"], { queryParams: { email: this.registerForm.value.mEmail }});
       }
@@ -164,7 +133,7 @@ export class RegisterSupplierComponent implements OnInit {
         width: "500px",
         data: {
           message: error.error.error.details.message,
-          title: "THÔNG BÁO",
+          title: "NOTIFICATION",
           colorButton: false
         },
       });

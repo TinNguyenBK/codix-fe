@@ -5,12 +5,12 @@ import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
 import {
-  checkExistApi, otpApi, verifyOtpApi, loginSupplierApi, registerApi, cartApi,resentEmailApi,
+  checkExistApi, otpApi, verifyOtpApi, loginUserApi, registerApi, cartApi,resentEmailApi,
   verifyEmailApi, activateEmailApi, getAdvisorApi, updateAdvisorApi,
   forgotPasswordApi, verifyForgotPasswordTokenApi, resetPasswordApi, 
   changeLanguages, decryptToken, 
    changeEditEmailApi, activePhoneApi,
-  getAreaApi, registerSupplierApi, registerColaboratorApi, loginColaboratorApi, certificateGetPreSignedUrlSup,
+  getAreaApi, registerUserrApi, registerColaboratorApi, loginColaboratorApi, certificateGetPreSignedUrlSup,
   checkEmailExistingApi
 } from './backend-api';
 import { ResetPassword } from '../../core/models/reset-password.model';
@@ -193,15 +193,15 @@ export class AuthService {
   }
 
 
-  registerSupplier(registerForm) {
-    return this.http.post<any>(registerSupplierApi, registerForm , {
+  registerUser(registerForm) {
+    return this.http.post<any>(registerUserrApi, registerForm , {
       headers: this.api.headers,
       observe: "response",
     });
   }
 
-  loginSupplier(loginForm) {
-    return this.http.post<any>(loginSupplierApi, loginForm,{
+  loginUser(loginForm) {
+    return this.http.post<any>(loginUserApi, loginForm,{
       headers: this.api.headers,
       observe: "response",
     });

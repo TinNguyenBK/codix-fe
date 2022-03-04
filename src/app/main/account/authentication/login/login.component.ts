@@ -100,22 +100,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.route.queryParams.subscribe((params) => {
-    //   this.redirect = params.redirect;
-    //   this.id = params.id;
-    //   this.language = params.language;
-    //   if (this.language == 'en') {
-    //     this.showLanguage = 'English'
-    //   } 
-    //   else if (this.language == 'en') {
-    //     this.showLanguage = 'Chinese'
-    //   }
-    //   const browserLang = this._translateService.getBrowserLang();
-    //   this._translateService.setDefaultLang(browserLang.match(/en|zh/) ? browserLang : 'en');
-      
-      // this._translateService.use(browserLang.match(/en|zh/) ? browserLang : 'en');
-    // });
-    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/store';
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
     if (!this.returnUrl)
       this.returnUrl = localStorage.getItem('returnUrl');
@@ -135,11 +119,11 @@ export class LoginComponent implements OnInit {
     this.active = true;
     this.buttonName = "Loading...";
     let loginForm = {
-      mEmail: this.loginForm.value.email,
-      mPassword: this.loginForm.value.password
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password
     }
     this.loginForm.value.email = this.loginForm.value.email.trim().toLowerCase();
-    this._authenticationService.loginSupplier(loginForm).subscribe(
+    this._authenticationService.loginUser(loginForm).subscribe(
       response => {
         if(response.status == 200 ) {
           if (!CheckNullOrUndefinedOrEmpty(response.body.token)) {

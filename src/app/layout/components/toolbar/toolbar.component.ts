@@ -204,8 +204,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       //Decode token
       const decoded = jwtDecode(this.token);
       this.userId = decoded.mId;
-      if (decoded?.mRole == 'SUPPLIER') {
-        this.myProfileService.getSupplierProfile().subscribe(
+        this.myProfileService.getUserProfile().subscribe(
           (response) => {
             if (response.status === 200) {
               this.supplierProfile = response.body;
@@ -223,29 +222,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             this.userMenuImgUrl = "assets/images_codix/person-avatar.png";
           }
         );
-      } else if (decoded?.mRole == 'COLLABORATOR') {
-        this.myProfileService.getColaboratorProfile().subscribe(
-          (response) => {
-            if (response.status === 200) {
-              this.colaboratorProfile = response.body;
-              if (
-                !CheckNullOrUndefinedOrEmpty(this.colaboratorProfile.mAvatar)
-              ) {
-                this.avatarCol = this.colaboratorProfile.mAvatar;
-                this.userMenuImgUrl = this.avatarCol;
-              } else {
-                this.userMenuImgUrl = 'assets/icons/ICON/UserMenu.svg';
-              }
-            } else {
-              this.userMenuImgUrl = 'assets/icons/ICON/UserMenu.svg';
-            }
-          },
-          (err) => {
-            this.userMenuImgUrl = 'assets/icons/ICON/UserMenu.svg';
-          }
-        );
-      }
-
       //change UserMenu profile photo, get new photo key
       this.toolBarService.change.subscribe((newPhotoKey) => {
         this.new_photo_key = newPhotoKey;
@@ -256,9 +232,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             : this.new_photo_key;
       });
       setTimeout(() => {
-        this.getNotifications();
-        this.getTotalNotifications();
-        this.listen();
+        // this.getNotifications();
+        // this.getTotalNotifications();
+        // this.listen();
       }, 1000);
     } else {
       this.language = 'en';
@@ -274,29 +250,29 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     // this.initIoConnection();
   }
 
-  listen(): void {
-    setTimeout(() => {
-      this.PUBNUB_CHANEL = [`SUPPLIER_${this.userId}`];
-      this.pubnub.subscribe({
-        channels: this.PUBNUB_CHANEL,
-        triggerEvents: ['message'],
-      });
+  // listen(): void {
+  //   setTimeout(() => {
+  //     this.PUBNUB_CHANEL = [`SUPPLIER_${this.userId}`];
+  //     this.pubnub.subscribe({
+  //       channels: this.PUBNUB_CHANEL,
+  //       triggerEvents: ['message'],
+  //     });
 
-      this.pubnub.getMessage(this.PUBNUB_CHANEL, (msg) => {
-        this.notificationSubscriptionService.setMessage(msg);
-        this.sound.play();
-        if (msg?.message?.pay_load?.mType === 'ORDER') {
-          const m =
-            msg?.message?.pn_gcm?.data?.title +
-              ' - ' +
-              msg?.message?.pn_gcm?.data?.summary || 'Thông báo đơn hàng';
-          this.showNotifier(m);
-          this.getNotifications();
-          this.getTotalNotifications();
-        }
-      });
-    }, 1000);
-  }
+  //     this.pubnub.getMessage(this.PUBNUB_CHANEL, (msg) => {
+  //       this.notificationSubscriptionService.setMessage(msg);
+  //       this.sound.play();
+  //       if (msg?.message?.pay_load?.mType === 'ORDER') {
+  //         const m =
+  //           msg?.message?.pn_gcm?.data?.title +
+  //             ' - ' +
+  //             msg?.message?.pn_gcm?.data?.summary || 'Thông báo đơn hàng';
+  //         this.showNotifier(m);
+  //         this.getNotifications();
+  //         this.getTotalNotifications();
+  //       }
+  //     });
+  //   }, 1000);
+  // }
 
   showNotifier(msg: string, type = 'success'): void {
     this.notifier.show({

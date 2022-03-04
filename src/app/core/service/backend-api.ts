@@ -63,16 +63,18 @@ export const changeLanguages = `${baseURL}/auth/change-language`;
 
 export const getAreaApi = `${baseURL}/area`;
 
-export const registerSupplierApi = `${baseURL}/suppliers/register`;
+export const registerUserrApi = `${baseURL}/users/register`;
 
 export const registerColaboratorApi = `${baseURL}/collaborators/register`;
 
 // Sign in Supplier
-export const loginSupplierApi = `${baseURL}/suppliers/login/basic`;
+export const loginUserApi = `${baseURL}/users/login/basic`;
 
 export const loginColaboratorApi = `${baseURL}/collaborators/login/basic`;
 
 export const supplierProfileApi = `${baseURL}/suppliers/profile`;
+
+export const userProfileApi = `${baseURL}/users/profile`;
 
 export const colaboratorProfileApi = `${baseURL}/collaborators/profile`;
 

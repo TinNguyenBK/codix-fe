@@ -1,4 +1,4 @@
-import { myProfileApi, changePasswordApi, profileGetPreSignedUrl, supplierProfileApi, 
+import { myProfileApi, changePasswordApi, profileGetPreSignedUrl, supplierProfileApi, userProfileApi,
     colaboratorProfileApi, changePasswordColApi, changePasswordSupApi, profileGetPreSignedUrlSup, profileGetPreSignedUrlCol} from './backend-api';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -55,8 +55,8 @@ export class MyProfileService {
         return this.http.put<any>(url, file, { headers: headers, reportProgress: true }).pipe(retry(3), catchError(this.errorHandler));
     }
 
-    getSupplierProfile(){
-        return this.api.getObservable(supplierProfileApi)
+    getUserProfile(){
+        return this.api.getObservable(userProfileApi)
     }
 
     getColaboratorProfile(){
@@ -64,25 +64,18 @@ export class MyProfileService {
     }
 
 
-    updateSupplierProfile(updateSupplierProfile) {
-        return this.api.patchObservable(supplierProfileApi, updateSupplierProfile);
+    updateUserProfile(updateUserProfile) {
+        return this.api.patchObservable(userProfileApi, updateUserProfile);
     }
 
     updateColaboratorProfile(updateColaboratorProfile) {
         return this.api.patchObservable(colaboratorProfileApi, updateColaboratorProfile);
     }
 
-
-    changePasswordCol(changePassword: ChangePassword) {
-        // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
-        // return this.http.post<any>(`${changePasswordApi}`, changePassword, { headers: reqHeaders }).pipe(retry(3), catchError(this.errorHandler));
-        return this.api.patchObservable(changePasswordColApi, changePassword);
-    }
-
     changePasswordSup(changePassword: ChangePassword) {
         // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
         // return this.http.post<any>(`${changePasswordApi}`, changePassword, { headers: reqHeaders }).pipe(retry(3), catchError(this.errorHandler));
-        return this.api.patchObservable(changePasswordSupApi, changePassword);
+        return this.api.patchObservable(userProfileApi, changePassword);
     }
 
     uploadAvataSup(fileName: string, fileType: string) {

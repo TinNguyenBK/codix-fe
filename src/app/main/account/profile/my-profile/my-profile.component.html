@@ -1,4 +1,4 @@
-<div *ngIf="isSupplier" style="width: 100%; height: auto !important;">
+<div  style="width: 100%; height: auto !important;">
   <div class="my-profile" fxLayout="column">
     <div class="header">
       <div class="header-profile">
@@ -10,58 +10,57 @@
   
     <div class="user-head-div">
       <div class="user-name">
-        <b> {{ companyName }}</b>
+        <b> {{ nickname }}</b>
       </div>
   
       <div id="circle">
        
         <img  class="user-img" src ="assets/images_codix/person-avatar.png"  alt="" />
       </div>
-      <input id="fileInput" type="file" (change)="onSelectFileSup($event)" accept="image/bmp, image/jpeg, image/png" />
     </div>
   
   
     <div class="body" fxLayout="column">
       <div class="body-sub">
-        <div class="personal-info" [hidden]="isCompanyInfoEditing">
+        <div class="personal-info" [hidden]="isUserInfoEditing">
           <div class="personal-info-title">
             <p><b>Personal Information</b></p>
-            <p class="right"><a (click)="editCompanyInfo()">Update</a></p>
+            <p class="right"><a (click)="editUserInfo()">Update</a></p>
           </div>
           <div class="personal-info-detail">
             <div class="pi-detail-line3">
               <p class="left">Nickname:</p>
-              <p class="right">{{companyName}}</p>
+              <p class="right">{{nickname}}</p>
             </div>
             <div class="privacy-detail-line1">
               <p class="left">Email:</p>
-              <p class="right">{{ companyEmail}}</p>
+              <p class="right">{{ email}}</p>
             </div>
             <div class="privacy-detail-line1">
               <p class="left">Phone:</p>
-              <p class="right">{{ companyEmail}}</p>
+              <p class="right">{{ phone}}</p>
             </div>
             <div class="pi-detail-line2">
               <p class="left">Country:</p>
-              <p class="right">{{areaNameDisplay}}</p>
+              <p class="right">{{countryDisplay}}</p>
             </div>
           </div>
         </div>
   
-        <div class="edit-personal-info" [hidden]="!isCompanyInfoEditing">
+        <div class="edit-personal-info" [hidden]="!isUserInfoEditing">
           <div class="personal-info-title">
             <p><b>Personal Information</b></p>
-            <p class="right"><a (click)="closeEditCompanyInfo()">Close</a></p>
+            <p class="right"><a (click)="closeEditUserInfo()">Close</a></p>
           </div>
-          <form [formGroup]="companyInfoForm" (ngSubmit)="saveNewCompanyInfo()" id="personal-info-form">
+          <form [formGroup]="userInfoForm" (ngSubmit)="saveNewUserInfo()" id="personal-info-form">
             <div class="input-info">
               <div class="input-detail-div" appearance="none">
                 <div class="detail-div">
                   <p>Nickname</p>
                   <input type="text" class="input-detail"
-                    placeholder="Enter nickname" formControlName="companyName" /> 
+                    placeholder="Enter nickname" formControlName="nickname" /> 
                 </div>
-                <div *ngIf="companyInfoForm.get('companyName').hasError('required')">
+                <div *ngIf="userInfoForm.get('nickname').hasError('required')">
                   <app-alert>
                     <p>Please enter nickname.</p>
                   </app-alert>
@@ -70,9 +69,9 @@
                 <div class="detail-div">
                   <p>Email</p>
                   <input type="text" class="input-detail"
-                    placeholder="Enter email" formControlName="companyName" /> 
+                    placeholder="Enter email" formControlName="email" /> 
                 </div>
-                <div *ngIf="companyInfoForm.get('companyName').hasError('required')">
+                <div *ngIf="userInfoForm.get('email').hasError('required')">
                   <app-alert>
                     <p>Please enter email.</p>
                   </app-alert>
@@ -81,9 +80,9 @@
                 <div class="detail-div">
                   <p>Phone</p>
                   <input type="text" class="input-detail"
-                    placeholder="Enter email" formControlName="companyName" /> 
+                    placeholder="Enter phone" formControlName="phone" /> 
                 </div>
-                <div *ngIf="companyInfoForm.get('companyName').hasError('required')">
+                <div *ngIf="userInfoForm.get('phone').hasError('required')">
                   <app-alert>
                     <p>Please enter phone.</p>
                   </app-alert>
@@ -93,7 +92,7 @@
                   <div class="detail-div-inline">
                     <p>Country</p>
                     <mat-form-field appearance="none">
-                      <mat-select [compareWith]="objectComparisonFunction"  formControlName="areaName" placeholder="Chọn khu vực"
+                      <mat-select [compareWith]="objectComparisonFunction"  formControlName="country" placeholder="Chọn khu vực"
                         (selectionChange)="setAreaName($event)">
                         <div *ngFor="let area of listArea">
                           <mat-option [value]="area">{{area.mDisplayName}}
@@ -103,14 +102,14 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div *ngIf="companyInfoForm.get('areaName').hasError('required')">
+                <div *ngIf="userInfoForm.get('country').hasError('required')">
                   <app-alert>
                     <p>Vui lòng chọn khu vực.</p>
                   </app-alert>
                 </div>
               
                 <button mat-raised-button id="btn-savePersonalInfo" class="btn btn-primary" type="submit"
-                  [disabled]="!companyInfoForm.valid">
+                  [disabled]="!userInfoForm.valid">
                    Save
                 </button>
               </div>
@@ -188,11 +187,11 @@
                 <div class="detail-div">
                   <p>New Password</p>
                   <input type="password" PasswordOnly class="input-detail" placeholder="Enter new password"
-                    formControlName="newpassword" /> </div>
+                    formControlName="password" /> </div>
   
                 <div *ngIf="
-                    changePasswordForm.get('newpassword').hasError('required') &&
-                    changePasswordForm.get('newpassword').touched
+                    changePasswordForm.get('password').hasError('required') &&
+                    changePasswordForm.get('password').touched
                   ">
                   <app-alert>
                     <p>Please enter new password.</p>
@@ -200,9 +199,9 @@
                 </div>
   
                 <div *ngIf="
-                    !changePasswordForm.get('newpassword').hasError('required') &&
-                    changePasswordForm.get('newpassword').touched &&
-                    changePasswordForm.get('newpassword').hasError('minlength')
+                    !changePasswordForm.get('password').hasError('required') &&
+                    changePasswordForm.get('password').touched &&
+                    changePasswordForm.get('password').hasError('minlength')
                   ">
                   <app-alert>
                     <p>Mật khẩu mới phải có ít nhất 8 ký tự.</p>
@@ -232,7 +231,7 @@
                     changePasswordForm
                       .get('confirmpassword')
                       .hasError('mustMatch') &&
-                    changePasswordForm.get('newpassword').touched
+                    changePasswordForm.get('password').touched
                   ">
                   <app-alert>
                     <p>Confirm password not match.</p>

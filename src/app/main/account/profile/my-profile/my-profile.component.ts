@@ -44,25 +44,33 @@ export class MyProfileComponent implements OnInit {
   token: string;
   decoded: any;
 
-  //Supplier
-  supplierProfile
-  mDisplayName = ''
-  companyName = ''
-  companyAddress = ''
-  companyWard = ''
+
+  userProfile
+  nickname = ''
+  phone = ''
+  email = ''
+  id
   companyDistrict = ''
   areaName
   taxCode = ''
   addressCompany = ''
   addressRegisterCompany = ''
-  listArea = []
-  areaNameDisplay
+  listArea = [
+    {
+      mDisplayName: 'Bulgaria'
+    },
+    {
+      mDisplayName: 'Vietnam'
+    }
+  ]
+  countryDisplay
+  country
   isPersonalInfoEditing = false;
   isColaboratorInfoEditing = false;
   isPasswordChanging = false;
   isPasswordChangingCol = false;
-  isCompanyInfoEditing = false;
-  companyInfoForm: FormGroup;
+  isUserInfoEditing = false;
+  userInfoForm: FormGroup;
   personalName1 = ''
   personalRole1 = ''
   companyEmail = ''
@@ -71,7 +79,7 @@ export class MyProfileComponent implements OnInit {
   personalRole2 = ''
   personalPhone2
   areaId
-  isChangeCompany: boolean = false
+  isChangeUser: boolean = false
   isChangePersonal: boolean = false
   isChangeColaborator: boolean = false
   wrongOldPassword = false;
@@ -113,171 +121,94 @@ export class MyProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getArea()
     this.token =  localStorage.getItem('token');
     if (!CheckNullOrUndefinedOrEmpty(this.token)) {
       this.decoded = jwt_decode(this.token);
-      if(this.decoded.mRole == 'COLLABORATOR') {
-        this.isColaborator = true
-        this.myProfileService.getColaboratorProfile().subscribe(response => {
-          if (response.status === 200) {
-           this.router.navigate(["/my-profile"]);
-           this.colaboratorProfile = response.body
-           this.colaboratorName = this.colaboratorProfile.mDisplayName
-           this.colaboratorEmail = this.colaboratorProfile.mEmail
-           this.colaboratorPhone =  this.colaboratorProfile.mTelNumber
-           this.colaboratorStreet =  this.colaboratorProfile.mStreet
-           this.colaboratorWard =  this.colaboratorProfile.mWard
-           this.colaboratorDistrict =  this.colaboratorProfile.mDistrict
-          //  this.colaboratorProvince =  this.colaboratorProfile.mProvince
-           this.colaboratorProvince = this.listArea.find(i => {
-            return i.mDisplayName == this.colaboratorProfile.mProvince
-           }),
-           this.colaboratorAddress = this.colaboratorStreet + ', ' + this.colaboratorWard + ', ' + this.colaboratorDistrict + ', ' +  this.colaboratorProvince.mDisplayName;
-           if(!CheckNullOrUndefinedOrEmpty(this.colaboratorProfile.mAvatar)) {
-            this.avatarCol = this.colaboratorProfile.mAvatar
-           }
-          } else {
-            // this.router.navigate(["/login"]);
-          }
-        }, err => {}
-        );
-      }
-      else if(this.decoded.mRole == 'SUPPLIER') {
-        this.isSupplier = true
-        this.myProfileService.getSupplierProfile().subscribe(response => {
+        this.myProfileService.getUserProfile().subscribe(response => {
           this.isChange = false
           if (response.status === 200) {
            this.router.navigate(["/my-profile"]);
-           this.supplierProfile = response.body
-           this.companyName = this.supplierProfile.mDisplayName
-           this.areaName = this.supplierProfile.mArea
-           this.areaId = this.supplierProfile.mArea.mId
-           this.areaNameDisplay = this.supplierProfile.mArea.mDisplayName
-          //  this.addressCompany = this.supplierProfile.mStreet + ', ' + this.supplierProfile.mWard + ', ' + this.supplierProfile.mDistrict + ', ' +  this.supplierProfile.mArea.mDisplayName
-          //  this.addressCompany = this.supplierProfile.mAddress
-          //  this.addressRegisterCompany = this.supplierProfile.mRegisteredBusinessAddress
-          this.companyAddress = this.supplierProfile.mAddress
-           this.companyRegisterAddress = this.supplierProfile.mRegisteredBusinessAddress
-           this.taxCode  = this.supplierProfile.mTaxCode
-           this.companyEmail = this.supplierProfile.mEmail 
-           this.personalPhone1 =  this.supplierProfile.mTelNumber1
-           this.personalRole1 = this.supplierProfile.mRepresentativeRole1
-           this.personalName1 = this.supplierProfile.mRepresentative1
-           this.personalPhone2 =  this.supplierProfile.mTelNumber2
-           this.personalRole2 = this.supplierProfile.mRepresentativeRole2
-           this.personalName2 = this.supplierProfile.mRepresentative2
-          //  this.companyWard = this.supplierProfile.mWard
-          //  this.companyDistrict = this.supplierProfile.mDistrict
-           if(!CheckNullOrUndefinedOrEmpty(this.supplierProfile.mCertificate)) {
-            this.companyCertificate = this.supplierProfile.mCertificate
-            this.isShowCertificate = true
-           }
-           if(!CheckNullOrUndefinedOrEmpty(this.supplierProfile.mAvatar)) {
-            this.avatar = this.supplierProfile.mAvatar
-           }
-           if(!CheckNullOrUndefinedOrEmpty(this.avatar)){
-             this.isShow = true
-           }
-          //  this.myProfileImgUrl = this.supplierProfile.mAvatar
+           this.userProfile = response.body
+           this.nickname = this.userProfile.nickname
+           this.email = this.userProfile.email
+           this.id = this.userProfile.id
+           this.phone = this.userProfile.phone
+           this.countryDisplay = this.userProfile.country
+           this.listArea.forEach(i => {
+             if(i.mDisplayName ==  this.countryDisplay) {
+              this.country = i
+             }
+           })
           } else {
-            // this.router.navigate(["/login"]);
           }
         }, err => {}
         );
-      }
     }
   
-    this.companyInfoForm = this.formBuilder.group(
+    this.userInfoForm = this.formBuilder.group(
       {
-        areaName: ['', Validators.required],
-        companyName: ['', Validators.required],
-        taxCode: ['', Validators.required],
-        companyAddress: ['', Validators.required],
-        companyRegisterAddress: ['', Validators.required],
-        // companyWard: ['', Validators.required],
-        // companyDistrict: ['', Validators.required],
-        companyEmail: [''],
+        nickname: ['', Validators.required],
+        phone: ['', Validators.required],
+        country: ['', Validators.required],
+        email: [''],
       }
     )
     this.changePasswordForm = this.formBuilder.group(
       {
         oldpassword: ['', [Validators.required, Validators.minLength(8)]],
-        newpassword: ['', [Validators.required, Validators.minLength(8)]],
+        password: ['', [Validators.required, Validators.minLength(8)]],
         confirmpassword: ['', Validators.required]
       },
       {
         validator: [
-          MustMatch('newpassword', 'confirmpassword')
-        ]
-      }
-    );
-
-    this.changePasswordFormCol = this.formBuilder.group(
-      {
-        oldpasswordCol: ['', [Validators.required, Validators.minLength(8)]],
-        newpasswordCol: ['', [Validators.required, Validators.minLength(8)]],
-        confirmpasswordCol: ['', Validators.required]
-      },
-      {
-        validator: [
-          MustMatch('newpasswordCol', 'confirmpasswordCol')
+          MustMatch('password', 'confirmpassword')
         ]
       }
     );
     
   }
 
-  getArea() {
-    this.authService.getArea().subscribe(data=>{
-     this.listArea = data 
-    })
-  }
 
   changeUpdate(){
     this.isChange = true
   }
 
-  editCompanyInfo(): void {
-    this.isCompanyInfoEditing = true;
+  editUserInfo(): void {
+    this.isUserInfoEditing = true;
     this.isPasswordChanging = false;
-    this.isPersonalInfoEditing = false;
-    if(!this.isChangeCompany) {
-      this.companyInfoForm.setValue({
-        'companyName': this.supplierProfile.mDisplayName,
-        'taxCode':  this.supplierProfile.mTaxCode,
-        'companyAddress': this.supplierProfile.mAddress,
-        'companyRegisterAddress': this.supplierProfile.mRegisteredBusinessAddress,
-        'areaName': this.supplierProfile.mArea,
-        'companyEmail': this.supplierProfile.mEmail
+    if(!this.isChangeUser) {
+      this.userInfoForm.setValue({
+        'nickname': this.userProfile.nickname,
+        'email':  this.userProfile.email,
+        'phone': this.userProfile.phone,
+        'country': this.country
       });
     }
     else {
-      this.companyInfoForm.setValue({
-        'companyName':  this.companyInfoForm.get('companyName').value,
-        'taxCode':  this.companyInfoForm.get('taxCode').value,
-        'companyAddress':  this.companyInfoForm.get('companyAddress').value,
-        'companyRegisterAddress': this.companyInfoForm.get('companyRegisterAddress').value,
-        'areaName': this.companyInfoForm.get('areaName').value
+      console.log( this.userInfoForm.get('country').value)
+      this.userInfoForm.setValue({
+        'nickname':  this.userInfoForm.get('nickname').value,
+        'phone':  this.userInfoForm.get('phone').value,
+        'country':  this.userInfoForm.get('country').value
       });
     }
   }
 
   public objectComparisonFunction = function( option, value ) : boolean {
-    return  option.mId === value.mId;
+    return  option.mDisplayName === value.mDisplayName;
   }
 
   public objectComparisonFunctionCol = function( option, value ) : boolean {
     return  option.mId === value.mId;
   }
 
-  closeEditCompanyInfo(): void {
-    this.isCompanyInfoEditing = false;
+  closeEditUserInfo(): void {
+    this.isUserInfoEditing = false;
   }
 
   changePassword(): void {
     this.isPasswordChanging = true;
-    this.isCompanyInfoEditing = false;
+    this.isUserInfoEditing = false;
     this.isPersonalInfoEditing = false;
     this.changePasswordForm.reset();
 
@@ -301,10 +232,8 @@ export class MyProfileComponent implements OnInit {
   }
 
   setAreaName(event) {
-    this.areaId = event.value.mId
-    this.areaProvince = event.value.mDisplayname
-    this.areaNameDisplay = event.value.mDisplayName
-    this.isChangeCompany = true
+    this.country = event.value.mDisplayName
+    this.isChangeUser = true
   }
 
   setProvinceCol(event) {
@@ -312,43 +241,26 @@ export class MyProfileComponent implements OnInit {
   }
   
   
-  saveNewCompanyInfo(): void {
-    let conformCompanyInfo = {
-      mAreaId: this.areaId,
-      mDisplayName: this.companyInfoForm.get('companyName').value,
-      mTaxCode: this.companyInfoForm.get('taxCode').value,
-      mAddress: this.companyInfoForm.get('companyAddress').value,
-      mRegisteredBusinessAddress: this.companyInfoForm.get('companyRegisterAddress').value,
-      // mWard: this.companyInfoForm.get('companyWard').value,
-      // mDistrict: this.companyInfoForm.get('companyDistrict').value,
-      mRepresentative1: this.personalName1,
-      mRepresentativeRole1: this.personalRole1,
-      mTelNumber1: this.personalPhone1,
-      mRepresentative2: this.personalName2,
-      mRepresentativeRole2: this.personalRole2,
-      mTelNumber2: this.personalPhone2,
-      mCertificate: this.certificatePreSignedUrl,
+  saveNewUserInfo(): void {
+    let conformUserInfo = {
+      nickname: this.userInfoForm.get('nickname').value,
+      phone: this.userInfoForm.get('phone').value,
+      country: this.userInfoForm.get('country').value.mDisplayName,
     }
-    this.myProfileService.updateSupplierProfile(conformCompanyInfo).subscribe(response => {
+    this.myProfileService.updateUserProfile(conformUserInfo).subscribe(response => {
       if(response.status == 204){
-        this.isCompanyInfoEditing = false;
+        this.isUserInfoEditing = false;
       };
     });
-
-    this.areaNameDisplay = this.areaNameDisplay
-    this.areaName = this.companyInfoForm.get('areaName').value;
-    this.companyName = this.companyInfoForm.get('companyName').value;
-    this.taxCode = this.companyInfoForm.get('taxCode').value;
-    this.companyAddress = this.companyInfoForm.get('companyAddress').value 
-    this.companyRegisterAddress = this.companyInfoForm.get('companyRegisterAddress').value 
-    
+    this.nickname = this.userInfoForm.get('nickname').value;
+    this.phone = this.userInfoForm.get('phone').value;
+    this.countryDisplay = this.userInfoForm.get('country').value.mDisplayName
   }
 
   saveNewPassword(): void {
     const changePassword: ChangePassword = new ChangePassword(
-      this.changePasswordForm.get('oldpassword').value,
-      this.changePasswordForm.get('newpassword').value,
-      // this.changePasswordForm.get('confirmpassword').value
+      // this.changePasswordForm.get('oldpassword').value,
+      this.changePasswordForm.get('password').value,
     );
 
     this.myProfileService.changePasswordSup(changePassword).subscribe(response => {
@@ -360,7 +272,7 @@ export class MyProfileComponent implements OnInit {
       if (response.status === 204) {
         this.wrongOldPassword = false;
         Swal.fire({
-          text: 'Mật khẩu được thay đổi thành công!',
+          text: 'Change password successfully!',
           icon: 'success',
           showConfirmButton: false,
           timer: 2000,
@@ -370,7 +282,7 @@ export class MyProfileComponent implements OnInit {
       }
     },error => {
       Swal.fire({
-        title: 'Không thể thay đổi mật khẩu',
+        title: 'Can not change password!',
         text: error.error.error.details.message,
       });
       this.isPasswordChanging = false;

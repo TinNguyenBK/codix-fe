@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { MaterialModule } from '../../../angular-material/material.module';
-import { RegisterSupplierComponent } from './register-supplier.component';
+import { RegisterUserComponent } from './register-user.component';
 import { AlertModule } from '../../../_shared/alert/alert.module';
 import { DialCodeModule } from '../dial-code/dial-code.module';
 import { DropdownModule } from 'primeng/dropdown';
@@ -14,7 +14,7 @@ import { TitleModule } from 'app/main/common-component/title/title.module';
 const routes = [
     {
         path: 'auth/register-supplier',
-        component: RegisterSupplierComponent
+        component: RegisterUserComponent
     },
     {
         path: 'auth/register-supplier-done',
@@ -24,7 +24,7 @@ const routes = [
 
 @NgModule({
     declarations: [
-        RegisterSupplierComponent,
+        RegisterUserComponent,
         PasswordDirective,
         RegisterSupplierDoneComponent
     ],
@@ -40,11 +40,11 @@ const routes = [
     ],
     exports: [
         RouterModule,
-        RegisterSupplierComponent,
+        RegisterUserComponent,
         RegisterSupplierDoneComponent,
     ]
 })
 
-export class RegisterSupplierModule
+export class RegisterUserModule
 {
 }

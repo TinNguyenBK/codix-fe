@@ -17,7 +17,7 @@ export const environment = {
   checkOffice: true,
   production: true,
   hmr: false,
-  baseUrl: 'https://dev-api.omed.vn',
+  baseUrl: 'https://codix-be.herokuapp.com',
 
   storageUrl:
     'https://s3-ap-southeast-1.amazonaws.com/stag2a-retail-public-bucket.doxa-holdings.com/',

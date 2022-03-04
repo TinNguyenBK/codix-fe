@@ -41,7 +41,7 @@ import { EditorModule } from 'primeng/editor';
 
 //Unbox-Host
 import { QRCodeModule } from 'angularx-qrcode';
-import { RegisterSupplierModule } from './main/account/authentication/register-supplier/register-supplier.module';
+import { RegisterUserModule } from './main/account/authentication/register-user/register-user.module';
 
 import { SharedService } from './core/service/commom/shared.service';
 
@@ -81,7 +81,7 @@ import { ProductModule } from './main/common-component/product/product.module';
 import { DialogConfirmNaepComponent } from './main/common-component/dialog-confirm-naep/dialog-confirm-naep.component';
 import { DialogCommonNaepComponent } from './main/common-component/dialog-common-naep/dialog-common-naep.component';
 import { DialogCommonButtonComponent } from './main/common-component/dialog-common-button/dialog-common-button.component';
-import { RegisterSupplierComponent } from './main/account/authentication/register-supplier/register-supplier.component';
+import { RegisterUserComponent } from './main/account/authentication/register-user/register-user.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   // return new TranslateHttpLoader(httpClient);
@@ -95,7 +95,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'register-supplier',
-    component: RegisterSupplierComponent,
+    component: RegisterUserComponent,
   },
   {
     path: 'forgot-password',
@@ -186,7 +186,7 @@ const appRoutes: Routes = [
     // App modules
     LayoutModule,
     AggridModule,
-    RegisterSupplierModule,
+    RegisterUserModule,
 
     DropdownModule,
     MultiSelectModule,
