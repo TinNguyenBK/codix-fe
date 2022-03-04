@@ -123,10 +123,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private pubnub: PubNubAngular,
     private notificationSubscriptionService: NotificationSubscriptionService
   ) {
-    // setup pubnub
-    pubnub.init({
-      subscribeKey: environment.pubnubSubKey,
-    });
+   
     // Set the defaults
     this.userStatusOptions = [
       {
