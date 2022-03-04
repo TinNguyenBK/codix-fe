@@ -1,0 +1,7 @@
+<h1  matDialogTitle class="title">THÔNG BÁO</h1>
+<hr>
+<div mat-dialog-content class="message">{{confirmMessage}}</div>
+<div mat-dialog-actions class="pt-24">
+    <button  class="cancel-button" mat-button (click)="dialogRef.close(true)">Cộng tác viên</button>
+    <button class="cancel-button" mat-button (click)="dialogRef.close(false)">Nhà cung cấp</button>
+</div>

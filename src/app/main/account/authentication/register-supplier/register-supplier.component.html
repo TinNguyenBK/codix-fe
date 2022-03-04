@@ -1,0 +1,99 @@
+<div id="register" fxLayout="column">
+
+    <div id="register-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+        <div id="register-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+            <div id="FormTitle">
+                <app-title class="back" [type]="title" [message]="message" link="/login"></app-title>
+                <div class="formLogo">
+                    <img src="assets/images_codix/codixLogo.jpg">
+                </div>
+            </div>
+            
+            <div class="register" fxLayout="column" fxLayoutAlign="center center">
+                <span class="text">Do you have an account?<a class="link" (click)="backToLogin()"
+                        style="cursor: pointer;">&nbsp; Log in</a></span>
+            </div>
+
+            <div class="title">REGISTER</div>
+            <form name="registerForm" [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit()" >
+                <mat-label class="secondary-text">Nickname <span style="color: red;">*</span></mat-label>
+                <mat-form-field appearance="none">
+                    <input matInput formControlName="mDisplayName" placeholder="Enter nickname">
+                    <div *ngIf="registerForm.get('mDisplayName').hasError('required') && is_summitted">
+                        <app-alert>
+                            <p>Please enter nickname.</p>
+                        </app-alert>
+                    </div>
+                </mat-form-field>
+                <mat-label class="secondary-text">Email <span style="color: red;">*</span></mat-label>
+                <mat-form-field appearance="none">
+                    <input  matInput formControlName="mEmail" placeholder="Enter email"  autocomplete="off" readonly 
+                    onfocus="this.removeAttribute('readonly');" >
+                    <div *ngIf="registerForm.get('mEmail').hasError('required')  && is_summitted">
+                        <app-alert>
+                            <p>Please enter email.</p>
+                        </app-alert>
+                    </div>
+                </mat-form-field>
+                <mat-label class="secondary-text">Phone <span style="color: red;">*</span></mat-label>
+                <mat-form-field appearance="none">
+                    <input matInput formControlName="mTelNumber1" placeholder="Enter Phone">
+                    <div *ngIf="registerForm.get('mTelNumber1').hasError('required') && is_summitted">
+                        <app-alert>
+                            <p>Please enter phone.</p>
+                        </app-alert>
+                    </div>
+                </mat-form-field>
+                <mat-label class="secondary-text">Country <span style="color: red;">*</span></mat-label>
+                <p-dropdown formControlName="mAreaId" [options]="listArea" (onChange)="changeArea($event)" filter="true"  class="area-dropdown" [style]="{'width':'100%', 'margin-top': '20px','margin-bottom': '20px'}" 
+                optionLabel="mDisplayName" placeholder="Select country"></p-dropdown>
+                <div *ngIf="registerForm.get('mAreaId').hasError('required') && is_summitted">
+                    <app-alert>
+                        <p>Please select country.</p>
+                    </app-alert>
+                </div>
+                <mat-label class="secondary-text">Password <span style="color: red;">*</span></mat-label>
+                <mat-form-field appearance="none">
+                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter Password" formControlName="mPassword"  PasswordOnly>
+                    <mat-icon  class="eye-icon"  matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <div
+                        *ngIf="registerForm.get('mPassword').hasError('required')  && is_summitted">
+                        <app-alert>
+                            <p>Please enter password.</p>
+                        </app-alert>
+                    </div>
+                    <div
+                        *ngIf="!registerForm.get('mPassword').hasError('required') && registerForm.controls.mPassword.touched && registerForm.get('mPassword').hasError('minlength') && is_summitted">
+                        <app-alert>
+                            <p>Mật khẩu phải có ít nhất 8 ký tự.</p>
+                        </app-alert>
+                    </div>
+                </mat-form-field>
+                <mat-label class="secondary-text">Confirm password <span style="color: red;">*</span></mat-label>
+                <mat-form-field appearance="none">
+                    <input matInput [type]="hidereturn ? 'password' : 'text'" type="password" placeholder="Enter confirm password" formControlName="mConfirmPassword"  PasswordOnly>
+                    <mat-icon  class="eye-icon"  matSuffix (click)="hidereturn = !hidereturn">{{hidereturn ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <div
+                        *ngIf="registerForm.get('mConfirmPassword').hasError('required')  && is_summitted">
+                        <app-alert>
+                            <p>Please enter confirm password.</p>
+                        </app-alert>
+                    </div>
+                    <div
+                        *ngIf="!registerForm.get('mConfirmPassword').hasError('required') &&  registerForm.get('mConfirmPassword').hasError('mustMatch') && registerForm.controls.mPassword.touched && is_summitted">
+                        <app-alert>
+                            <p>Confirm password not match.</p>
+                        </app-alert>
+                    </div>
+                </mat-form-field>
+
+                <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT">
+                   CREATE ACCOUNT
+                </button>
+            </form>
+        </div>
+        <br>
+        <h2 class="FormFooter">Copyright by Codix - 2022</h2>
+    </div>
+
+</div>

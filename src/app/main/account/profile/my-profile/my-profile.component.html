@@ -1,0 +1,253 @@
+<div *ngIf="isSupplier" style="width: 100%; height: auto !important;">
+  <div class="my-profile" fxLayout="column">
+    <div class="header">
+      <div class="header-profile">
+        <!-- <span class="dot">●</span>
+        <span class="text-profile">{{ 'MY_PROFILE.MY_PROFILE' | translate }}</span> -->
+        <app-title [type]="title" [message]="'My profile'"></app-title>
+      </div>
+    </div>
+  
+    <div class="user-head-div">
+      <div class="user-name">
+        <b> {{ companyName }}</b>
+      </div>
+  
+      <div id="circle">
+       
+        <img  class="user-img" src ="assets/images_codix/person-avatar.png"  alt="" />
+      </div>
+      <input id="fileInput" type="file" (change)="onSelectFileSup($event)" accept="image/bmp, image/jpeg, image/png" />
+    </div>
+  
+  
+    <div class="body" fxLayout="column">
+      <div class="body-sub">
+        <div class="personal-info" [hidden]="isCompanyInfoEditing">
+          <div class="personal-info-title">
+            <p><b>Personal Information</b></p>
+            <p class="right"><a (click)="editCompanyInfo()">Update</a></p>
+          </div>
+          <div class="personal-info-detail">
+            <div class="pi-detail-line3">
+              <p class="left">Nickname:</p>
+              <p class="right">{{companyName}}</p>
+            </div>
+            <div class="privacy-detail-line1">
+              <p class="left">Email:</p>
+              <p class="right">{{ companyEmail}}</p>
+            </div>
+            <div class="privacy-detail-line1">
+              <p class="left">Phone:</p>
+              <p class="right">{{ companyEmail}}</p>
+            </div>
+            <div class="pi-detail-line2">
+              <p class="left">Country:</p>
+              <p class="right">{{areaNameDisplay}}</p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="edit-personal-info" [hidden]="!isCompanyInfoEditing">
+          <div class="personal-info-title">
+            <p><b>Personal Information</b></p>
+            <p class="right"><a (click)="closeEditCompanyInfo()">Close</a></p>
+          </div>
+          <form [formGroup]="companyInfoForm" (ngSubmit)="saveNewCompanyInfo()" id="personal-info-form">
+            <div class="input-info">
+              <div class="input-detail-div" appearance="none">
+                <div class="detail-div">
+                  <p>Nickname</p>
+                  <input type="text" class="input-detail"
+                    placeholder="Enter nickname" formControlName="companyName" /> 
+                </div>
+                <div *ngIf="companyInfoForm.get('companyName').hasError('required')">
+                  <app-alert>
+                    <p>Please enter nickname.</p>
+                  </app-alert>
+                </div>
+
+                <div class="detail-div">
+                  <p>Email</p>
+                  <input type="text" class="input-detail"
+                    placeholder="Enter email" formControlName="companyName" /> 
+                </div>
+                <div *ngIf="companyInfoForm.get('companyName').hasError('required')">
+                  <app-alert>
+                    <p>Please enter email.</p>
+                  </app-alert>
+                </div>
+
+                <div class="detail-div">
+                  <p>Phone</p>
+                  <input type="text" class="input-detail"
+                    placeholder="Enter email" formControlName="companyName" /> 
+                </div>
+                <div *ngIf="companyInfoForm.get('companyName').hasError('required')">
+                  <app-alert>
+                    <p>Please enter phone.</p>
+                  </app-alert>
+                </div>
+
+                <div class="detail-div">
+                  <div class="detail-div-inline">
+                    <p>Country</p>
+                    <mat-form-field appearance="none">
+                      <mat-select [compareWith]="objectComparisonFunction"  formControlName="areaName" placeholder="Chọn khu vực"
+                        (selectionChange)="setAreaName($event)">
+                        <div *ngFor="let area of listArea">
+                          <mat-option [value]="area">{{area.mDisplayName}}
+                          </mat-option>
+                        </div>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div *ngIf="companyInfoForm.get('areaName').hasError('required')">
+                  <app-alert>
+                    <p>Vui lòng chọn khu vực.</p>
+                  </app-alert>
+                </div>
+              
+                <button mat-raised-button id="btn-savePersonalInfo" class="btn btn-primary" type="submit"
+                  [disabled]="!companyInfoForm.valid">
+                   Save
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="privacy-info" [hidden]="isPasswordChanging">
+          <div class="privacy-info-detail">
+            <!-- Password -->
+            <div class="privacy-detail-line3">
+              <p class="left">Password:</p>
+              <div class="right password">
+                <p>********</p>
+                <p class="change-link">
+                  <a (click)="changePassword()">Change password</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="edit-privacy-info" [hidden]="!isPasswordChanging">
+          <div class="privacy-info-title">
+            <p><b>Change password</b></p>
+          </div>
+          <div class="privacy-info-detail">
+            <div class="privacy-detail-line3">
+              <p class="left">Password:</p>
+              <div class="right password">
+                <p>********</p>
+                <p class="close-link">
+                  <a (click)="closeChangePassword()">Close</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <form [formGroup]="changePasswordForm" (ngSubmit)="saveNewPassword()">
+            <div class="input-info">
+              <div class="input-detail-div" appearance="none">
+                <div class="detail-div">
+                  <p>Old Password</p>
+                  <input type="password" PasswordOnly class="input-detail" placeholder="Enter old password"
+                    formControlName="oldpassword" /> </div>
+  
+                <div *ngIf="
+                    changePasswordForm.get('oldpassword').hasError('required') &&
+                    changePasswordForm.get('oldpassword').touched
+                  ">
+                  <app-alert>
+                    <p>Please enter old password.</p>
+                  </app-alert>
+                </div>
+  
+                <div *ngIf="
+                !changePasswordForm.get('oldpassword').hasError('required') &&
+                changePasswordForm.get('oldpassword').touched &&
+                changePasswordForm.get('oldpassword').hasError('minlength')
+              ">
+                  <app-alert>
+                    <p>Mật khẩu phải có ít nhất 8 ký tự.</p>
+                  </app-alert>
+                </div>
+  
+                <div *ngIf="
+                    wrongOldPassword &&
+                    changePasswordForm.get('oldpassword').pristine
+                  ">
+                  <app-alert>
+                    <p>Old password not match.</p>
+                  </app-alert>
+                </div>
+  
+                <div class="detail-div">
+                  <p>New Password</p>
+                  <input type="password" PasswordOnly class="input-detail" placeholder="Enter new password"
+                    formControlName="newpassword" /> </div>
+  
+                <div *ngIf="
+                    changePasswordForm.get('newpassword').hasError('required') &&
+                    changePasswordForm.get('newpassword').touched
+                  ">
+                  <app-alert>
+                    <p>Please enter new password.</p>
+                  </app-alert>
+                </div>
+  
+                <div *ngIf="
+                    !changePasswordForm.get('newpassword').hasError('required') &&
+                    changePasswordForm.get('newpassword').touched &&
+                    changePasswordForm.get('newpassword').hasError('minlength')
+                  ">
+                  <app-alert>
+                    <p>Mật khẩu mới phải có ít nhất 8 ký tự.</p>
+                  </app-alert>
+                </div>
+                <div class="detail-div">
+                  <p>Confirm Password</p>
+                  <input type="password" class="input-detail"
+                    placeholder="Enter confirm password" PasswordOnly formControlName="confirmpassword" />
+                </div>
+  
+                <div *ngIf="
+                    changePasswordForm
+                      .get('confirmpassword')
+                      .hasError('required') &&
+                    changePasswordForm.get('confirmpassword').touched
+                  ">
+                  <app-alert>
+                    <p>Please enter confirm password.</p>
+                  </app-alert>
+                </div>
+  
+                <div *ngIf="
+                    !changePasswordForm
+                      .get('confirmpassword')
+                      .hasError('required') &&
+                    changePasswordForm
+                      .get('confirmpassword')
+                      .hasError('mustMatch') &&
+                    changePasswordForm.get('newpassword').touched
+                  ">
+                  <app-alert>
+                    <p>Confirm password not match.</p>
+                  </app-alert>
+                </div>
+  
+                <button mat-raised-button id="btn-savePassword" class="btn btn-primary" type="submit"
+                  [disabled]="!changePasswordForm.valid">
+                  Save
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
