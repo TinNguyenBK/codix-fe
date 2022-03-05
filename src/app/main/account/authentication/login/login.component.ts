@@ -3,22 +3,15 @@ import {FormBuilder,FormGroup,Validators,FormControl} from '@angular/forms';
 import { FuseConfigService} from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { AuthService} from '../../../../core/service/auth.service'
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { isNullOrUndefined } from 'util';
-import { HttpParams, HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { ApiService } from 'app/core/service/api.service';
-import { changeLanguages } from 'app/core/service/backend-api';
 import { MyProfileService } from 'app/core/service/my-profile.service';
 import { TranslateService } from '@ngx-translate/core';
-import { SharedService } from 'app/core/service/commom/shared.service';
 import { Title } from 'app/core/enum/title';
-import { User, UserNoRegister } from 'app/core/models/user.model';
-import { pattern} from 'app/core/enum/pattern'
 import { CheckNullOrUndefinedOrEmpty } from 'app/core/utils/common-function';
 import * as jwt_decode from 'jwt-decode';
 import { MatDialog } from "@angular/material/dialog";
-import { DialogRegisterComponent } from './dialog-register/dialog-register.component'
 import { CommonDialogComponent } from "app/main/common-dialog/common-dialog.component";
 
 
@@ -60,6 +53,8 @@ export class LoginComponent implements OnInit {
   ];
   isColaborator: boolean = false
   isSupplier: boolean = false
+  isRemember: boolean = false
+  isRememberTemp: boolean = false
   decoded: any;
 
   constructor
@@ -92,26 +87,20 @@ export class LoginComponent implements OnInit {
         }
       }
     }
-
-    this.listRole = [
-      { value: 'Colaborator', label: 'Cộng tác viên' },
-      { value: 'Supplier', label: 'Nhà cung cấp' }
-    ];
   }
 
   ngOnInit(): void {
+   this.isRemember = !!localStorage.getItem("isRemember");
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
     if (!this.returnUrl)
       this.returnUrl = localStorage.getItem('returnUrl');
     if (!this.returnUrl)
       this.returnUrl = '/my-profile';
-    console.log(this.returnUrl);
     this.route.queryParams.subscribe((params) => {
       this.tokenParam = params.tokenParam;
     });
     this.loginForm = this._formBuilder.group({
-      // role: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.pattern(pattern.email)]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern('^.{8,}$')]]
     });
   }
@@ -131,8 +120,17 @@ export class LoginComponent implements OnInit {
             this.active = false;
             this.buttonName= 'LOG IN';
             if (!CheckNullOrUndefinedOrEmpty(this.decoded)){
-              localStorage.setItem("token", response.body.token);
-              this.router.navigate(["/my-profile"]);
+              if(this.isRemember == true){
+                localStorage.setItem("token", response.body.token);
+                localStorage.setItem("isRemember", 'true');
+                this.router.navigate(["/my-profile"]);
+              }
+              else {
+                sessionStorage.setItem("token", response.body.token);
+                this.router.navigate(["/my-profile"]);
+                localStorage.removeItem("isRemember");
+              }
+
             }
           }
         }
@@ -144,7 +142,7 @@ export class LoginComponent implements OnInit {
           width: "500px",
           data: {
             message: error.error.error.details.message,
-            title: "THÔNG BÁO",
+            title: "NOTIFICATION",
             colorButton: false
           },
         });
@@ -194,9 +192,12 @@ export class LoginComponent implements OnInit {
     { queryParams: { language: this.language} });
   }
 
+  changeButton(e) {
+    this.isRemember = e.checked
+   }
+
   nextToSignUp() {
-    this.router.navigate(["/register-supplier"], 
-    { queryParams: { role: 'Supplier'} });
+    this.router.navigate(["/register-user"])
   }
 
 }

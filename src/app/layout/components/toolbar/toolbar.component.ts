@@ -195,7 +195,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.hiddenNavbar = settings.layout.navbar.hidden === true;
       });
 
-    this.token = localStorage.getItem('token');
+    this.token = localStorage.getItem('token') || sessionStorage.getItem('token') ;
     if (!isNullOrUndefined(this.token)) {
       this.decoded = jwt_decode(this.token);
       this.isShowMenu = true;

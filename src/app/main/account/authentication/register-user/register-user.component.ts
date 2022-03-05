@@ -91,12 +91,12 @@ export class RegisterUserComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this._formBuilder.group(
       {
-        nickname: ['', Validators.required],
-        email: ['', [Validators.required, , Validators.pattern(pattern.email)]],
-        phone: ['', [Validators.required, Validators.pattern(pattern.phone_number)]],
+        nickname: ['', Validators.required,  Validators.maxLength(40)],
+        email: ['', [Validators.required, , Validators.pattern(pattern.email), Validators.maxLength(40)]],
+        phone: ['', [Validators.required, Validators.pattern(pattern.phone_number), Validators.minLength(8), Validators.maxLength(15)]],
         country: ['', Validators.required],
-        password: ['', [Validators.required, Validators.minLength(8)]],
-        confirmpassword: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40)]],
+        confirmpassword: ['', [Validators.required,  Validators.minLength(8), Validators.maxLength(40)]],
       },
       {
         validator: MustMatch('password', 'confirmpassword'),
@@ -126,6 +126,7 @@ export class RegisterUserComponent implements OnInit {
 
     this.authService.registerUser(user).subscribe(response => {
       if(response.status === 200) {
+        localStorage.setItem("token", response.body.token)
         this.router.navigate(["/auth/register-supplier-done"], { queryParams: { email: this.registerForm.value.mEmail }});
       }
     },error => {
@@ -159,43 +160,7 @@ export class RegisterUserComponent implements OnInit {
   changeButton() {
    this.isShowUpload = !this.isShowUpload
   }
-  
-  onSelectFile(event): void {
-     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      if (file.type != "image/bmp" && file.type != "image/jpeg" && file.type != "image/png" && file.type != "application/pdf") {
-        return;
-      }
 
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-     
-      // tslint:disable-next-line: no-shadowed-variable
-      reader.onload = (event) => { // called once readAsDataURL is completed
-       
-         let picture_name = file.name.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '_');
-         this.authService.uploadCertificate(picture_name, file.type.split('/')[1]).subscribe(response => {
-              // console.log(response)
-              this.preSignedUrl = response.body.preSignedUrl;
-              this.authService.uploadFiletoS3(this.preSignedUrl, file.type, file).subscribe(response => {
-                Swal.fire({
-                  text: 'Tải giấy chứng nhận thành công!',
-                  icon: 'success',
-                  showConfirmButton: false,
-                  timer: 2000,
-                });
-              }, error => {
-                Swal.fire({
-                  title: 'Không thể tải giấy chứng nhận.',
-                  text: 'Vui lòng thử lại!',
-                });
-              }
-              );
-          });
-       };
-     }
-   }
-   
  
 }
 

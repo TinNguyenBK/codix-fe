@@ -13,7 +13,7 @@ import { TitleModule } from 'app/main/common-component/title/title.module';
 
 const routes = [
     {
-        path: 'auth/register-supplier',
+        path: 'auth/register-user',
         component: RegisterUserComponent
     },
     {

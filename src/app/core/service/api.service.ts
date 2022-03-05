@@ -13,14 +13,15 @@ export class ApiService {
 
   isEnable() {
     // get token localstorege in localstorage
-    this.token = 'Bearer ' + localStorage.getItem('token');
+    this.token = 'Bearer ' + (localStorage.getItem('token') || sessionStorage.getItem('token')) ;
+    console.log( this.token )
     // User had logged but profile in localstorage had delete
     if (isNullOrUndefined(this.token) || this.token === 'Bearer null') {
       this.router.navigate(['/login']);
       return false;
     } else {
       this.headers = new HttpHeaders({
-        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        Authorization: 'Bearer ' + (localStorage.getItem('token') || sessionStorage.getItem('token')),
       });
       return true;
     }

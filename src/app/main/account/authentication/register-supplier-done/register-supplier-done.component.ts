@@ -83,7 +83,7 @@ export class RegisterSupplierDoneComponent implements OnInit {
   }
 
   backToLogin() {
-    this.router.navigate(["/login"], { queryParams: { checkUrl: this.returnUrl }});
+    this.router.navigate(["/my-profile"]);
   }
 
   getLanguge(language) {

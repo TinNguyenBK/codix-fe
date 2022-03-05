@@ -94,7 +94,7 @@ const appRoutes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'register-supplier',
+    path: 'register-user',
     component: RegisterUserComponent,
   },
   {

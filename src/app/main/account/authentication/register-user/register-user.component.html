@@ -24,6 +24,18 @@
                             <p>Please enter nickname.</p>
                         </app-alert>
                     </div>
+                    <!-- <div
+                        *ngIf="!registerForm.get('nickname').hasError('required') && registerForm.controls.nickname.touched && registerForm.get('nickname').hasError('minlength') && is_summitted">
+                        <app-alert>
+                            <p>Nickname must be at least 8 characters..</p>
+                        </app-alert>
+                    </div> -->
+                    <div
+                        *ngIf="!registerForm.get('nickname').hasError('required') && registerForm.controls.nickname.touched && registerForm.get('nickname').hasError('maxlength') && is_summitted">
+                        <app-alert>
+                            <p>Nickname must be less than 40 characters.</p>
+                        </app-alert>
+                    </div>
                 </mat-form-field>
                 <mat-label class="secondary-text">Email <span style="color: red;">*</span></mat-label>
                 <mat-form-field appearance="none">
@@ -34,13 +46,35 @@
                             <p>Please enter email.</p>
                         </app-alert>
                     </div>
+                    <div *ngIf="registerForm.get('email').hasError('pattern')  && is_summitted">
+                        <app-alert>
+                            <p>Enter the correct email format.</p>
+                        </app-alert>
+                    </div>
+                    <div
+                        *ngIf="!registerForm.get('email').hasError('required') && registerForm.controls.email.touched && registerForm.get('email').hasError('maxlength') && is_summitted">
+                        <app-alert>
+                            <p>Email must be less than 40 characters.</p>
+                        </app-alert>
+                     </div>
                 </mat-form-field>
                 <mat-label class="secondary-text">Phone <span style="color: red;">*</span></mat-label>
                 <mat-form-field appearance="none">
-                    <input matInput formControlName="phone" placeholder="Enter Phone">
+                    <input matInput formControlName="phone" placeholder="Enter phone">
                     <div *ngIf="registerForm.get('phone').hasError('required') && is_summitted">
                         <app-alert>
                             <p>Please enter phone.</p>
+                        </app-alert>
+                    </div>
+                    <div *ngIf="registerForm.get('phone').hasError('pattern')  && is_summitted">
+                        <app-alert>
+                            <p>Enter the correct phone format.</p>
+                        </app-alert>
+                    </div>
+                    <div
+                        *ngIf="!registerForm.get('phone').hasError('required') && registerForm.controls.phone.touched && registerForm.get('phone').hasError('maxlength') && is_summitted">
+                        <app-alert>
+                            <p>Phone must be less than 15 characters.</p>
                         </app-alert>
                     </div>
                 </mat-form-field>
@@ -54,7 +88,7 @@
                 </div>
                 <mat-label class="secondary-text">Password <span style="color: red;">*</span></mat-label>
                 <mat-form-field appearance="none">
-                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter Password" formControlName="password"  PasswordOnly>
+                    <input matInput [type]="hide ? 'password' : 'text'" placeholder="Enter password" formControlName="password"  PasswordOnly>
                     <mat-icon  class="eye-icon"  matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     <div
                         *ngIf="registerForm.get('password').hasError('required')  && is_summitted">
@@ -65,7 +99,13 @@
                     <div
                         *ngIf="!registerForm.get('password').hasError('required') && registerForm.controls.password.touched && registerForm.get('password').hasError('minlength') && is_summitted">
                         <app-alert>
-                            <p>Mật khẩu phải có ít nhất 8 ký tự.</p>
+                            <p>Password must be at least 8 characters.</p>
+                        </app-alert>
+                    </div>
+                    <div
+                        *ngIf="!registerForm.get('password').hasError('required') && registerForm.controls.password.touched && registerForm.get('password').hasError('maxlength') && is_summitted">
+                        <app-alert>
+                            <p>Password must be less than 40 characters.</p>
                         </app-alert>
                     </div>
                 </mat-form-field>
@@ -85,6 +125,18 @@
                             <p>Confirm password not match.</p>
                         </app-alert>
                     </div>
+                    <div
+                        *ngIf="!registerForm.get('confirmpassword').hasError('required') && registerForm.controls.confirmpassword.touched && registerForm.get('confirmpassword').hasError('maxlength') && is_summitted">
+                        <app-alert>
+                            <p>Confirmpassword must be less than 40 characters.</p>
+                        </app-alert>
+                     </div>
+                    <div
+                    *ngIf="!registerForm.get('confirmpassword').hasError('required') && registerForm.controls.confirmpassword.touched && registerForm.get('confirmpassword').hasError('minlength') && is_summitted">
+                    <app-alert>
+                        <p>Confirmpassword must be at least 8 characters.</p>
+                    </app-alert>
+                </div>
                 </mat-form-field>
 
                 <button mat-raised-button color="accent" class="submit-button" aria-label="CREATE AN ACCOUNT">

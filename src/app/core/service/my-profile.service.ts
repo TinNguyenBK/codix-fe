@@ -59,18 +59,19 @@ export class MyProfileService {
         return this.api.getObservable(userProfileApi)
     }
 
-    getColaboratorProfile(){
-        return this.api.getObservable(colaboratorProfileApi)
-    }
-
-
     updateUserProfile(updateUserProfile) {
-        return this.api.patchObservable(userProfileApi, updateUserProfile);
+        return this.http.patch<any>(userProfileApi, updateUserProfile, {
+            headers: this.api.headers,
+            observe: "response",
+        });
     }
 
-    updateColaboratorProfile(updateColaboratorProfile) {
-        return this.api.patchObservable(colaboratorProfileApi, updateColaboratorProfile);
-    }
+    // registerUser(registerForm) {
+    //     return this.http.post<any>(registerUserrApi, registerForm , {
+    //       headers: this.api.headers,
+    //       observe: "response",
+    //     });
+    //   }
 
     changePasswordSup(changePassword: ChangePassword) {
         // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
@@ -78,24 +79,7 @@ export class MyProfileService {
         return this.api.patchObservable(userProfileApi, changePassword);
     }
 
-    uploadAvataSup(fileName: string, fileType: string) {
-        // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
-        const bodyObj = { name: fileName, ext: fileType };
-        return this.api.post(profileGetPreSignedUrlSup, bodyObj)
 
-    }
-
-    uploadAvataCol(fileName: string, fileType: string) {
-        // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
-        const bodyObj = { name: fileName, ext: fileType };
-        return this.api.post(profileGetPreSignedUrlCol, bodyObj)
-
-    }
-
-    uploadFiletoS3(url: string, contentType: string, file){
-        const headers = new HttpHeaders({ 'Content-Type': contentType });
-        return this.http.put<any>(url, file, { headers: headers, reportProgress: true, observe: 'response' }).pipe();
-      }
     
     private errorHandler(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {

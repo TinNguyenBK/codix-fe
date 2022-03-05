@@ -1,30 +1,23 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
-  FormControl,
   Validators,
   FormBuilder
 } from '@angular/forms';
 import { MustMatch } from '../../authentication/_helper/must-match.validator';
 import { MyProfileService } from '../../../../core/service/my-profile.service';
-import { MyProfile } from '../../../../core/models/my-profile.model';
-import { UpdateProfile } from '../../../../core/models/update-profile.model';
 import { ChangePassword } from '../../../../core/models/change-password.model';
-import { Router, NavigationEnd } from '@angular/router';
-import * as helper from '../_helper/helper-fn';
-
+import { Router} from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import Swal from 'sweetalert2';
-import { ToolbarComponent } from '../../../../layout/components/toolbar/toolbar.component';
-import { ToolbarModule } from '../../../../layout/components/toolbar/toolbar.module';
 import { ToolbarService } from '../../../../layout/components/toolbar/toolbar.service';
-import { isNullOrUndefined } from 'util';
 import { Title } from 'app/core/enum/title';
-import { VerifyDialogComponent } from '@fuse/components/verify-dialog/verify-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../../core/service/auth.service';
 import { CheckNullOrUndefinedOrEmpty } from 'app/core/utils/common-function';
 import * as jwt_decode from 'jwt-decode';
+import { pattern } from 'app/core/enum/pattern';
+import { CommonDialogComponent } from 'app/main/common-dialog/common-dialog.component';
 
 @Component({
   selector: 'app-my-profile',
@@ -33,28 +26,17 @@ import * as jwt_decode from 'jwt-decode';
 })
 export class MyProfileComponent implements OnInit {
   storageUrl = environment.storageUrl;
-  countryCodeToName = environment.countryCodeToName;
-  stateCodeToName = null;
-  stateCodeToNameFormOptions = null;
   myProfileImgUrl = '../../../../../assets/icons/ICON/AccountCircle.svg';
   myProfileImgUrlCol = '../../../../../assets/icons/ICON/AccountCircle.svg';
   changePasswordForm: FormGroup;
-  changePasswordFormCol: FormGroup;
   title = Title.DOT;
   token: string;
   decoded: any;
-
-
   userProfile
   nickname = ''
   phone = ''
   email = ''
   id
-  companyDistrict = ''
-  areaName
-  taxCode = ''
-  addressCompany = ''
-  addressRegisterCompany = ''
   listArea = [
     {
       mDisplayName: 'Bulgaria'
@@ -71,14 +53,7 @@ export class MyProfileComponent implements OnInit {
   isPasswordChangingCol = false;
   isUserInfoEditing = false;
   userInfoForm: FormGroup;
-  personalName1 = ''
-  personalRole1 = ''
-  companyEmail = ''
-  personalPhone1
-  personalName2 = ''
-  personalRole2 = ''
-  personalPhone2
-  areaId
+
   isChangeUser: boolean = false
   isChangePersonal: boolean = false
   isChangeColaborator: boolean = false
@@ -87,29 +62,8 @@ export class MyProfileComponent implements OnInit {
   isColaborator: boolean = false
   isSupplier: boolean = false
   isShow: boolean = false
-
-  //Colaborator
-  colaboratorProfile
-  colaboratorName = ''
-  colaboratorEmail = ''
-  colaboratorPhone = ''
-  colaboratorStreet = ''
-  colaboratorWard= ''
-  colaboratorDistrict = ''
-  colaboratorProvince
-  colaboratorProvinceTemp
-  colaboratorAddress = ''
-  avatarCompany = ''
-  modeChange: boolean;
-  avatar = '../../../../../assets/icons/ICON/AccountCircle.svg';
-  avatarCol = '../../../../../assets/icons/ICON/AccountCircle.svg';
   isChange: boolean
-  listProvince = []
-  areaProvince
-  companyCertificate
-  isShowCertificate: boolean = false;
-  certificatePreSignedUrl;
-  companyRegisterAddress = ''
+  is_summitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -121,7 +75,7 @@ export class MyProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.token =  localStorage.getItem('token');
+    this.token =  localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!CheckNullOrUndefinedOrEmpty(this.token)) {
       this.decoded = jwt_decode(this.token);
         this.myProfileService.getUserProfile().subscribe(response => {
@@ -144,19 +98,22 @@ export class MyProfileComponent implements OnInit {
         }, err => {}
         );
     }
+    else {
+      this.router.navigate(["/login"]);
+    }
   
     this.userInfoForm = this.formBuilder.group(
       {
-        nickname: ['', Validators.required],
-        phone: ['', Validators.required],
+        nickname: ['', [Validators.required,  Validators.maxLength(40)]],
+        phone: ['', [Validators.required, Validators.pattern(pattern.phone_number), Validators.minLength(8), Validators.maxLength(15)]],
         country: ['', Validators.required],
         email: [''],
       }
     )
     this.changePasswordForm = this.formBuilder.group(
       {
-        oldpassword: ['', [Validators.required, Validators.minLength(8)]],
-        password: ['', [Validators.required, Validators.minLength(8)]],
+        oldpassword: ['', [Validators.required, Validators.minLength(8),  Validators.maxLength(40)]],
+        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40)]],
         confirmpassword: ['', Validators.required]
       },
       {
@@ -214,13 +171,6 @@ export class MyProfileComponent implements OnInit {
 
   }
 
-  changePasswordCol(): void {
-    this.isPasswordChangingCol = true;
-    this.isColaboratorInfoEditing = false;
-    this.changePasswordFormCol.reset();
-
-  }
-
   closeChangePassword(): void {
     this.isPasswordChanging = false;
     this.wrongOldPassword = false;
@@ -235,23 +185,35 @@ export class MyProfileComponent implements OnInit {
     this.country = event.value.mDisplayName
     this.isChangeUser = true
   }
-
-  setProvinceCol(event) {
-    this.colaboratorProvince = event.value.mDisplayName
-  }
-  
   
   saveNewUserInfo(): void {
+   this.is_summitted = true;
     let conformUserInfo = {
       nickname: this.userInfoForm.get('nickname').value,
       phone: this.userInfoForm.get('phone').value,
       country: this.userInfoForm.get('country').value.mDisplayName,
     }
     this.myProfileService.updateUserProfile(conformUserInfo).subscribe(response => {
+      console.log(response)
       if(response.status == 204){
         this.isUserInfoEditing = false;
       };
-    });
+    },
+    error => {
+      const dialogNotifi = this.dialog.open(CommonDialogComponent, {
+        width: "500px",
+        data: {
+          message: error.error.error.details.message,
+          title: "NOTIFICATION",
+          colorButton: false
+        },
+      });
+      dialogNotifi.afterClosed().subscribe(data =>
+      {
+        return
+      })
+      }
+    );
     this.nickname = this.userInfoForm.get('nickname').value;
     this.phone = this.userInfoForm.get('phone').value;
     this.countryDisplay = this.userInfoForm.get('country').value.mDisplayName
@@ -288,11 +250,6 @@ export class MyProfileComponent implements OnInit {
       this.isPasswordChanging = false;
     });
 
-  }
-
-  setFormState(event): void {
-    const selectedCountryCode = event.value;
-    this.stateCodeToNameFormOptions = environment.countryCodeToStates[selectedCountryCode];
   }
 
   keepOriginalOrder = (a, b) => a.key;

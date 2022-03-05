@@ -65,17 +65,22 @@
                     <p>Please enter nickname.</p>
                   </app-alert>
                 </div>
-
+                <div
+                    *ngIf="!userInfoForm.get('nickname').hasError('required') &&  userInfoForm.get('nickname').hasError('maxlength') && is_summitted">
+                    <app-alert>
+                        <p>Nickname must be less than 40 characters.</p>
+                    </app-alert>
+                </div>
                 <div class="detail-div">
                   <p>Email</p>
-                  <input type="text" class="input-detail"
+                  <input type="text" class="input-detail" disabled
                     placeholder="Enter email" formControlName="email" /> 
                 </div>
-                <div *ngIf="userInfoForm.get('email').hasError('required')">
+                <!-- <div *ngIf="userInfoForm.get('email').hasError('required')">
                   <app-alert>
                     <p>Please enter email.</p>
                   </app-alert>
-                </div>
+                </div> -->
 
                 <div class="detail-div">
                   <p>Phone</p>
@@ -86,6 +91,17 @@
                   <app-alert>
                     <p>Please enter phone.</p>
                   </app-alert>
+                </div>
+                <div *ngIf="userInfoForm.get('phone').hasError('pattern')">
+                  <app-alert>
+                      <p>Enter the correct phone format.</p>
+                  </app-alert>
+                </div>
+                <div
+                    *ngIf="!userInfoForm.get('phone').hasError('required') && userInfoForm.get('phone').hasError('maxlength') && is_summitted">
+                    <app-alert>
+                        <p>Phone must be less than 15 characters.</p>
+                    </app-alert>
                 </div>
 
                 <div class="detail-div">
@@ -171,7 +187,17 @@
                 changePasswordForm.get('oldpassword').hasError('minlength')
               ">
                   <app-alert>
-                    <p>Mật khẩu phải có ít nhất 8 ký tự.</p>
+                    <p>Password must be at least 8 characters.</p>
+                  </app-alert>
+                </div>
+
+                <div *ngIf="
+                !changePasswordForm.get('oldpassword').hasError('required') &&
+                changePasswordForm.get('oldpassword').touched &&
+                changePasswordForm.get('oldpassword').hasError('maxlength')
+              ">
+                  <app-alert>
+                    <p>Password must be less than 40 characters.</p>
                   </app-alert>
                 </div>
   
@@ -204,7 +230,16 @@
                     changePasswordForm.get('password').hasError('minlength')
                   ">
                   <app-alert>
-                    <p>Mật khẩu mới phải có ít nhất 8 ký tự.</p>
+                    <p>Password must be at least 8 characters.</p>
+                  </app-alert>
+                </div>
+                <div *ngIf="
+                  !changePasswordForm.get('password').hasError('required') &&
+                  changePasswordForm.get('password').touched &&
+                  changePasswordForm.get('password').hasError('maxlength')
+                ">
+                  <app-alert>
+                    <p>Password must be less than 40 characters.</p>
                   </app-alert>
                 </div>
                 <div class="detail-div">

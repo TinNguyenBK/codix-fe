@@ -51,11 +51,11 @@
 
                     <!-- <img class="images" src="assets/icons/ICON/Messages.svg" alt="" > -->
 
-                    <div *ngIf="loginForm.get('email').hasError('required') && loginForm.controls.email.touched">
+                    <!-- <div *ngIf="loginForm.get('email').hasError('required') && loginForm.controls.email.touched">
                         <app-alert>
                             <p>Vui lòng nhập email.</p>
                         </app-alert>
-                    </div>
+                    </div> -->
                     <!-- <div *ngIf="!loginForm.get('email').hasError('required') &&
                                 loginForm.controls.email.errors?.pattern && loginForm.controls.email.touched">
                         <app-alert>
@@ -84,13 +84,13 @@
                 </mat-form-field>
 
                 <div class="terms" fxLayout="row" fxLayoutAlign="center center">
-                    <mat-checkbox name="terms"  aria-label="Remember me" required color="primary" #Terms >
+                    <mat-checkbox name="terms" [checked]="isRemember" (change)='changeButton($event)' aria-label="Remember me" required color="primary" #Terms >
                     </mat-checkbox>
                     <span >Remember me</span>
                 </div>
                 
                 <app-button-loading [buttonName] = 'buttonName' [disabledBtn] = "loginForm.invalid" [active] = "active"  [ngClass] = "loginForm.valid ? '':'btn-create-disabled'"></app-button-loading>
-                <div *ngIf="loginAlert && (loginForm.controls.email.pristine && loginForm.controls.password.pristine)">
+                <!-- <div *ngIf="loginAlert && (loginForm.controls.email.pristine && loginForm.controls.password.pristine)">
                     <app-alert>
                         <p>{{ 'LOGIN.LOGIN_FAILED' | translate }}</p>
                     </app-alert>
@@ -112,7 +112,7 @@
                     <app-alert>
                         <p>{{ 'LOGIN.LOGIN_FAILED203' | translate }}</p>
                     </app-alert>
-                </div>
+                </div> -->
             </form>
             <div class="register">
                 <span>Don't have account?</span>
