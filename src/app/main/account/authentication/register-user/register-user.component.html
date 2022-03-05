@@ -77,6 +77,7 @@
                             <p>Phone must be less than 15 characters.</p>
                         </app-alert>
                     </div>
+                    
                 </mat-form-field>
                 <mat-label class="secondary-text">Country <span style="color: red;">*</span></mat-label>
                 <p-dropdown formControlName="country" [options]="listArea" (onChange)="changeArea($event)" filter="true"  class="area-dropdown" [style]="{'width':'100%', 'margin-top': '20px','margin-bottom': '20px'}" 
