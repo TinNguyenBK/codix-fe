@@ -24,12 +24,6 @@
                             <p>Please enter nickname.</p>
                         </app-alert>
                     </div>
-                    <!-- <div
-                        *ngIf="!registerForm.get('nickname').hasError('required') && registerForm.controls.nickname.touched && registerForm.get('nickname').hasError('minlength') && is_summitted">
-                        <app-alert>
-                            <p>Nickname must be at least 8 characters..</p>
-                        </app-alert>
-                    </div> -->
                     <div
                         *ngIf="!registerForm.get('nickname').hasError('required') && registerForm.controls.nickname.touched && registerForm.get('nickname').hasError('maxlength') && is_summitted">
                         <app-alert>
@@ -145,7 +139,7 @@
             </form>
         </div>
         <br>
-        <h2 class="FormFooter">Copyright by Codix - 2022</h2>
+        <h2 class="FormFooter">Copyright by TinNguyen - 2022</h2>
     </div>
 
 </div>

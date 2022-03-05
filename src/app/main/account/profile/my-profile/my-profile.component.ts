@@ -112,7 +112,7 @@ export class MyProfileComponent implements OnInit {
     )
     this.changePasswordForm = this.formBuilder.group(
       {
-        oldpassword: ['', [Validators.required, Validators.minLength(8),  Validators.maxLength(40)]],
+        // oldpassword: ['', [Validators.required, Validators.minLength(8),  Validators.maxLength(40)]],
         password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40)]],
         confirmpassword: ['', Validators.required]
       },
@@ -228,7 +228,7 @@ export class MyProfileComponent implements OnInit {
     this.myProfileService.changePasswordSup(changePassword).subscribe(response => {
       if (response.status === 201) {
         this.wrongOldPassword = true;
-        this.changePasswordForm.get('oldpassword').markAsPristine();
+        // this.changePasswordForm.get('oldpassword').markAsPristine();
       }
 
       if (response.status === 204) {

@@ -91,7 +91,7 @@ export class RegisterUserComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this._formBuilder.group(
       {
-        nickname: ['', Validators.required,  Validators.maxLength(40)],
+        nickname: ['', [Validators.required,  Validators.maxLength(40)]],
         email: ['', [Validators.required, , Validators.pattern(pattern.email), Validators.maxLength(40)]],
         phone: ['', [Validators.required, Validators.pattern(pattern.phone_number), Validators.minLength(8), Validators.maxLength(15)]],
         country: ['', Validators.required],
@@ -160,8 +160,6 @@ export class RegisterUserComponent implements OnInit {
   changeButton() {
    this.isShowUpload = !this.isShowUpload
   }
-
- 
 }
 
 function phoneNumberValidator(registerForm: FormControl) {

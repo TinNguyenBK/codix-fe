@@ -98,5 +98,6 @@ export class RegisterSupplierDoneComponent implements OnInit {
     const browserLang = this._translateService.getBrowserLang();
     this._translateService.use(this.language);
   }
+
 }
 

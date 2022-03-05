@@ -167,21 +167,21 @@
           <form [formGroup]="changePasswordForm" (ngSubmit)="saveNewPassword()">
             <div class="input-info">
               <div class="input-detail-div" appearance="none">
-                <div class="detail-div">
+                <!-- <div class="detail-div">
                   <p>Old Password</p>
                   <input type="password" PasswordOnly class="input-detail" placeholder="Enter old password"
-                    formControlName="oldpassword" /> </div>
+                    formControlName="oldpassword" /> </div> -->
   
-                <div *ngIf="
+                <!-- <div *ngIf="
                     changePasswordForm.get('oldpassword').hasError('required') &&
                     changePasswordForm.get('oldpassword').touched
                   ">
                   <app-alert>
                     <p>Please enter old password.</p>
                   </app-alert>
-                </div>
+                </div> -->
   
-                <div *ngIf="
+                <!-- <div *ngIf="
                 !changePasswordForm.get('oldpassword').hasError('required') &&
                 changePasswordForm.get('oldpassword').touched &&
                 changePasswordForm.get('oldpassword').hasError('minlength')
@@ -208,7 +208,7 @@
                   <app-alert>
                     <p>Old password not match.</p>
                   </app-alert>
-                </div>
+                </div> -->
   
                 <div class="detail-div">
                   <p>New Password</p>
