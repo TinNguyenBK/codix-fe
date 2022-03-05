@@ -2,7 +2,6 @@
 
 cd dist/doxa-retail
 
-
 #Clean s3
 aws s3 rm s3://omed-customer-ui --recursive
 
