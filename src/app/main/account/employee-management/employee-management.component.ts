@@ -40,4 +40,8 @@ export class EmployeeManagementComponent implements OnInit {
   onGridSizeChanged(params){
   }
 
+  onRowClickedChangeToEmployee(event) {
+
+  }
+
 }
