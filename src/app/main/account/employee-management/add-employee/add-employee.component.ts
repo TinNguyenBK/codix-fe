@@ -31,8 +31,19 @@ export class AddEmployeeComponent implements OnInit {
       salary: ['', Validators.required],
       vacationDate: ['', Validators.required],
     });
+
+  
   }
 
+  onChangeEnd(event) {
+
+  }
+  cancle(){
+
+  }
+  submit(){
+    
+  }
 }
 interface Experience {
   id: string,

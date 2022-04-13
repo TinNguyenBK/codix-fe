@@ -12,6 +12,9 @@ import { Router } from '@angular/router';
 })
 export class EmployeeManagementComponent implements OnInit {
     modules = [ClientSideRowModelModule];
+    employeeArray: Array<String> = [];
+    defaultColDef;
+    gridOptions;
     constructor( 
       private router: Router,
     ) { }
@@ -30,6 +33,11 @@ export class EmployeeManagementComponent implements OnInit {
   }
   add() {
     this.router.navigate(['/add-employee']);
+  }
+
+  onGridReady(params){
+  }
+  onGridSizeChanged(params){
   }
 
 }
