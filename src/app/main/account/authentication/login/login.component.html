@@ -88,31 +88,8 @@
                     </mat-checkbox>
                     <span >Remember me</span>
                 </div>
-                
-                <app-button-loading [buttonName] = 'buttonName' [disabledBtn] = "loginForm.invalid" [active] = "active"  [ngClass] = "loginForm.valid ? '':'btn-create-disabled'"></app-button-loading>
-                <!-- <div *ngIf="loginAlert && (loginForm.controls.email.pristine && loginForm.controls.password.pristine)">
-                    <app-alert>
-                        <p>{{ 'LOGIN.LOGIN_FAILED' | translate }}</p>
-                    </app-alert>
-                </div>
-
-                <div *ngIf="loginAlert204 && (loginForm.controls.email.pristine && loginForm.controls.password.pristine)">
-                    <app-alert>
-                        <p>{{ 'LOGIN.LOGIN_FAILED204' | translate }}</p>
-                    </app-alert>
-                </div>
-
-                <div *ngIf="loginAlert202 && (loginForm.controls.email.pristine && loginForm.controls.password.pristine)">
-                    <app-alert>
-                        <p>{{ 'LOGIN.LOGIN_FAILED202' | translate }}</p>
-                    </app-alert>
-                </div>
-
-                <div *ngIf="loginAlert203 && (loginForm.controls.email.pristine && loginForm.controls.password.pristine)">
-                    <app-alert>
-                        <p>{{ 'LOGIN.LOGIN_FAILED203' | translate }}</p>
-                    </app-alert>
-                </div> -->
+                <!-- <app-button-loading [buttonName] = 'buttonName' [disabledBtn] = "loginForm.invalid" [active] = "active"  [ngClass] = "loginForm.valid ? '':'btn-create-disabled'"></app-button-loading> -->
+                <button class="btn-login">Log in</button>
             </form>
             <div class="register">
                 <span>Don't have account?</span>

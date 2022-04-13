@@ -14,7 +14,7 @@ import { MatProgressButtonsModule } from 'mat-progress-buttons';
         MatDialogModule,
         MatButtonModule,
         CommonModule,
-        MatProgressButtonsModule
+        MatProgressButtonsModule.forRoot()
     ],
     entryComponents: [
         ButtonLoadingComponent

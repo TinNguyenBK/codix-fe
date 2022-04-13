@@ -74,7 +74,15 @@
                     color: var(--link-color);
                   }
                 }
-              }      
+              }   
+            .btn-login {
+                background-color: #3578E5 !important;
+                color: #ffffff !important;
+                border-radius: 5px;
+                height: 40px;
+                 border: 1px solid #3578E5;
+                 width: 100%;
+            }   
             #FormTitle{
                 display: block;
                 position: relative;

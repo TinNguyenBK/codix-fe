@@ -10,10 +10,10 @@ import { isNullOrUndefined } from 'util';
 })
 export class ButtonLoadingComponent implements OnChanges {
 
- @Input() buttonName: string;
- @Input() disabledBtn: boolean;
+ @Input() buttonName: string = '';
+ @Input() disabledBtn: boolean = false;
  @Input() active: boolean;
- @Input() buttonText: string;
+ @Input() buttonText: string = '';
 
   barButtonOptions: MatProgressButtonOptions= {
     active: false,

@@ -30,7 +30,7 @@ const routes = [
         AlertModule,
         ButtonLoadingModule,
         TitleModule,
-        MatCarouselModule.forRoot(),
+        MatCarouselModule,
         DropdownModule,
         DialogRegisterModule
     ],

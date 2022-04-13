@@ -8,6 +8,7 @@ import { ContactUsModule } from './contact-us/contact-us.module';
 import { TermAndConditionModule } from './term-and-condition/term-and-condition.module';
 import { ResentEmailModule } from './authentication/resent-email/resent-email.module';
 import { RegisterUserModule } from './authentication/register-user/register-user.module';
+import { EmployeeManagementModule } from './employee-management/employee-management.module';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { RegisterUserModule } from './authentication/register-user/register-user
         ContactUsModule,
         TermAndConditionModule,
         ResentEmailModule,
-        RegisterUserModule
+        RegisterUserModule,
+        EmployeeManagementModule
     ],
     exports:[],
     declarations: []

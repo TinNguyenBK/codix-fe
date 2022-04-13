@@ -40,13 +40,12 @@ import { MyProfileModule } from './main/account/profile/my-profile/my-profile.mo
 import { EditorModule } from 'primeng/editor';
 
 //Unbox-Host
-import { QRCodeModule } from 'angularx-qrcode';
 import { RegisterUserModule } from './main/account/authentication/register-user/register-user.module';
 
 import { SharedService } from './core/service/commom/shared.service';
 
 import { DatePipe } from '@angular/common';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+// import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { environment } from 'environments/environment';
 
 import { MatProgressButtonsModule } from 'mat-progress-buttons';
@@ -54,8 +53,6 @@ import { ButtonLoadingComponent } from './main/common-component/button-loading/b
 import { ButtonLoadingModule } from './main/common-component/button-loading/button-loading.module';
 
 import { ToastModule } from 'primeng/toast';
-
-import { CountdownModule } from 'ngx-countdown';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -76,12 +73,11 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { OrderSummaryDetailModule } from './main/common-component/order-summary-detail/order-summary-detail.component.module';
-import { ProductModule } from './main/common-component/product/product.module';
 import { DialogConfirmNaepComponent } from './main/common-component/dialog-confirm-naep/dialog-confirm-naep.component';
 import { DialogCommonNaepComponent } from './main/common-component/dialog-common-naep/dialog-common-naep.component';
 import { DialogCommonButtonComponent } from './main/common-component/dialog-common-button/dialog-common-button.component';
 import { RegisterUserComponent } from './main/account/authentication/register-user/register-user.component';
+import { ContactUsComponent } from './main/account/contact-us/contact-us.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   // return new TranslateHttpLoader(httpClient);
@@ -106,12 +102,12 @@ const appRoutes: Routes = [
     component: ForgotPasswordComponent,
   },
   {
-    path: 'resent-email',
-    component: ResentEmailComponent,
-  },
-  {
     path: 'my-profile',
     component: MyProfileComponent,
+  },
+  {
+    path: 'employee-management',
+    component: ContactUsComponent,
   },
   {
     path: 'grid',
@@ -120,27 +116,6 @@ const appRoutes: Routes = [
   {
     path: 'store',
     redirectTo: 'store',
-  },
-  {
-    path: 'order-history',
-    redirectTo: 'order-history',
-  },
-  {
-    path: 'activities-overview',
-    redirectTo: 'activities-overview',
-  },
-  {
-    path: 'cooking-experience',
-    redirectTo: 'cooking-experience',
-  },
-  {
-    path: 'become-an-advisor',
-    redirectTo: 'become-an-advisor',
-  },
-
-  {
-    path: 'editaddress',
-    redirectTo: 'editaddress',
   },
   {
     path: '**',
@@ -196,12 +171,10 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     //Payment Module
-    QRCodeModule,
-    NgxMaterialTimepickerModule,
-    MatProgressButtonsModule,
+    // NgxMaterialTimepickerModule,
+    MatProgressButtonsModule.forRoot(),
     ToastModule,
     ButtonLoadingModule,
-    CountdownModule,
 
     TitleModule,
 
@@ -213,8 +186,6 @@ const appRoutes: Routes = [
     PlaceholderLoadingModule,
     // Contact list
     DialogLoginModule,
-    OrderSummaryDetailModule,
-    ProductModule,
     DialogLoginNewModule,
     EditorModule,
   ],

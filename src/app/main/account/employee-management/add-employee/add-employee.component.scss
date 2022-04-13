@@ -1,0 +1,248 @@
+@import "src/@fuse/scss/fuse";
+
+:host {
+    ::ng-deep .ui-inputgroup-addon{
+        height: 40px;
+        border-color: #707070;
+        padding : 9px !important;
+        font-size: 14px !important;
+        min-width: 0px !important;
+        width: 30%;
+        @include media-breakpoint("xs") {
+            font-size: 11px !important;
+            width: 50%;
+            padding : 10px !important;
+        }
+        @media (min-width: 760px) and (max-width: 780px) {
+            font-size: 11px !important;
+            width: 90%;
+            padding : 10px !important;
+        }
+        @media (min-width: 781px) and (max-width: 1100px) {
+            font-size: 11px !important;
+            width: 40%;
+            padding : 10px !important;
+        }
+    }
+    ::ng-deep .ui-dropdown{
+        width: 99%;
+        height: 40px;
+        display: block;
+        margin: 0px auto;
+        @include media-breakpoint("xs") {
+            height: 40px;
+            // line-height: 32px;
+        }
+        border: none;
+        min-width: 0px !important;
+        padding: 0px 5px;
+        box-shadow: none;
+        border: var(--border-color) solid 1px;
+    }
+    ::ng-deep .ui-dropdown-label{
+        font-family: Arial, sans-serif !important; 
+        vertical-align: middle;
+        padding: 0px 10px;
+        height: 30px;
+        width: 100%;
+        font-size: 14px;
+        @include media-breakpoint("xs") {
+            // height: 32px;
+            // line-height: 32px;
+            // font-size: var(--mobi-box-text);
+        }
+        margin: 0px;
+        line-height: 40px;
+        color: var(--input-color);
+    }
+    p-calendar {
+        z-index: 99999999999 !important;
+        ::ng-deep .ui-calendar {
+            display: flex !important;
+            opacity: 100000 !important;
+            input {
+                border: 0.5px solid var(--border-color) !important;
+                border-right: none !important;
+                flex-grow: 1 !important;
+                transition: none;
+                box-shadow: none;
+                border-radius: 6px 0px 0px 6px;
+                &:enabled:focus:not(.ui-state-error) {
+                    box-shadow:none;
+                    border-color: var(--border-color);
+                };
+                height: 40px;
+                padding: 0px 15px;
+               
+            }
+            button {
+                border: 0.5px solid var(--border-color);
+                background: #fff;
+                border-left: none;
+                border-radius: 0px 6px 6px 0px;
+                height: 40px;
+                .ui-button-icon-left {
+                    color: #3578E5;
+                }
+                .ui-button-text {
+                    background-color: #fff;
+                    margin-right: 2.5px;
+                    margin-bottom: 0.5px;
+                    &:enabled:active,&:enabled:hover {
+                        background-color: #fff;
+                        color: #ffffff; 
+                        border-color: var(--border-color);
+                    }
+                }
+                &:enabled:focus:not(.ui-state-error) {
+                    box-shadow:none;
+                    border-color: var(--border-color);
+                }
+            }
+            .ui-datepicker {
+                .ui-state-active {
+                    background-color: #3578E5;
+                    border: 0.5px solid var(--border-color);
+                    border-radius: 12px;
+                }
+            }
+        }
+    }
+}
+
+.container-employee {
+  .btn-create{
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 10px;
+    .btn{
+      width: 100%;
+      padding: 15px 0px;
+      background-color: var(--link-color);
+      color: white;
+      border: 1px solid var(--link-color);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  }
+
+  .title{
+      width: 100%;
+      text-align: center;
+      color: var(--primary-color) ;
+      font-weight: 600;
+  }
+
+  .form-infor{
+      z-index: 999;
+      width: 90%;
+      margin: 0 auto;
+      min-height: 500px;
+      -webkit-box-shadow: 0px 3px 16px #00000029 !important;
+      -moz-box-shadow: 0px 3px 16px #00000029 !important;
+      box-shadow: 0px 3px 16px #00000029 !important;
+      opacity: 0.8;
+      border-radius: 6px;
+      padding: 10px 0px;
+      .fill-input{
+        margin: 0 auto;
+        width: 95%;
+        p {
+            font-weight: bold;
+            margin-top: 10px !important;
+        }
+        .text-area {
+            width: 100%;
+            height: 130px;
+            border-radius: 5px;
+        }
+        input{
+            width: 100%;
+            border: 1px solid gray;
+            border-radius: 6px;
+            height: 40px;
+        }
+        .error-message{
+            margin: 0px ;
+            margin-top: 10px;
+        }
+      }
+
+      .fill-spCustomer{
+        margin: 0 auto;
+        width: 95%;
+        .spCustomer_detail{
+            width: 100%;
+            position: relative;
+            input{
+                width: 43%;
+                border: 1px solid gray;
+                border-radius: 6px;
+                height: 40px;
+                margin-bottom: 15px;
+            }
+            mat-icon{
+                position: absolute;
+                margin-top: 6px;
+                cursor: pointer;
+            }
+            .error-message{
+                margin-left: 2%;
+                margin-top: -10px;
+                margin-bottom: 5px;
+                // display: block;
+            }
+        }
+
+        .btn-add-spCustomer{
+            height: 40px;
+            width: 100%;
+            text-align: center;
+            color: var(--primary-color) ;
+            background-color: white;
+            border: 1px solid var(--primary-color);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+      }
+
+    }
+    .error-message{
+        // margin-left: 7%;
+        margin-top: 5px;
+    }
+
+    .create-button{
+        padding: 35px 5px;
+        @include media-breakpoint("xs") {
+            margin-bottom: 60px;
+        }
+        .btn-color-custom {
+            height: 48px;
+            border: 1px solid #3578E5;
+            width: 45%;
+            border-radius: 5px;
+        }
+        .btn-cancel-event{
+            color: #3578E5;
+            background: #fff;
+            margin-left: 10px;
+            z-index: -99;
+        }
+        .btn-create-event{
+            height: 48px;
+            border: 1px solid #3578E5;
+            width: 45%;
+            border-radius: 5px;
+            float: right;
+            background: #3578E5;
+            color: #fff;
+            margin-right: 10px;
+            z-index: -99;
+        }
+        .btn-create-disabled{
+            background: grey !important;
+            pointer-events: none;
+        }
+    }
+}
