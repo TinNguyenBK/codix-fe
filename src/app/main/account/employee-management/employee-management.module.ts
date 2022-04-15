@@ -15,6 +15,7 @@ import { CalendarModule } from 'primeng/calendar';
 import {FormsModule} from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown'
 ;import { AgGridModule } from "@ag-grid-community/angular";
+import { NumberDirective } from './check-number.directive';
 
 const routes = [
     {
@@ -30,7 +31,8 @@ const routes = [
 @NgModule({
     declarations: [
         EmployeeManagementComponent,
-        AddEmployeeComponent
+        AddEmployeeComponent,
+        NumberDirective
     ],
     imports: [
         RouterModule.forChild(routes),
