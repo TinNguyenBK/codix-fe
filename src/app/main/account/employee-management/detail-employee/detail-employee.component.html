@@ -2,7 +2,7 @@
     <div class="container-employee">
       <div class="redeem-order">
         <app-title 
-            [type]="title" [message]="'Add employee'" 
+            [type]="title" [message]="'Employee Detail'" 
             [link]="'/employee-management'">
         </app-title>
       </div>
@@ -15,7 +15,7 @@
        
         <div class="fill-input">
             <p>Full name</p>
-            <input formControlName="fullName" type="text" placeholder="Enter full name">  
+            <input formControlName="fullName" type="text" placeholder="Enter full name" [(ngModel)]="fullName" >  
             <mat-error class="error-message" 
               *ngIf = "generalInforForm.get('fullName').hasError('required') && isSubmit">
               Please enter full name.
@@ -24,7 +24,7 @@
 
         <div class="fill-input">
             <p>Experience level</p>
-            <p-dropdown formControlName="level" [options]="experienceLevel"  filter="true"  class="area-dropdown" [style]="{'width':'100%', 'height': '40px', 'border-radius': '5px'}" 
+            <p-dropdown formControlName="level" [options]="experienceLevel"  filter="true" [(ngModel)]="level" class="area-dropdown" [style]="{'width':'100%', 'height': '40px', 'border-radius': '5px'}" 
             optionLabel="year" placeholder="Choose experience level"></p-dropdown>
             <mat-error class="error-message" 
               *ngIf = "generalInforForm.get('level').hasError('required') && isSubmit">
@@ -34,7 +34,7 @@
 
         <div class="fill-input">
             <p>Starting date</p>
-            <p-calendar formControlName="startingDate" dateFormat="dd/mm/yy" [showIcon]="true"   placeholder="Choose starting date"
+            <p-calendar formControlName="startingDate" dateFormat="dd/mm/yy" [showIcon]="true" [(ngModel)]="startingDate"  placeholder="Choose starting date"
             (onSelect)="onChangeTime($event)"  showTime="true" hourFormat="24"></p-calendar>
             <mat-error class="error-message" 
               *ngIf = "generalInforForm.get('startingDate').hasError('required') && isSubmit">
@@ -44,7 +44,7 @@
 
         <div class="fill-input">
             <p>Salary</p>
-            <input formControlName="salary" type="text" placeholder="Enter salary" numbersOnly>
+            <input formControlName="salary" type="text" placeholder="Enter salary" numbersOnly [(ngModel)]="salary">
             <mat-error class="error-message" 
               *ngIf = "generalInforForm.get('salary').hasError('required') && isSubmit">
               Please enter salary.
@@ -53,7 +53,7 @@
 
         <div class="fill-input">
             <p>Vacation days</p>
-            <input formControlName="vacationDate" type="text" placeholder="Enter salary" numbersOnly>
+            <input formControlName="vacationDate" type="text" placeholder="Enter salary" numbersOnly [(ngModel)]="vacationDate">
             <mat-error class="error-message" 
               *ngIf = "generalInforForm.get('vacationDate').hasError('required') && isSubmit">
               Please enter vacation days.
@@ -63,8 +63,8 @@
       </div>
         <div class="create-button">
             <div class="example-button-row">
-                <button  class="btn-color-custom btn-cancel-event" (click)="cancle()">CANCEL</button>
-                <button  class="btn-color-custom btn-create-event" (click)="addEmployee()">ADD</button>
+                <button  class="btn-color-custom btn-cancel-event" (click)="deleteEmployee()">DELETE</button>
+                <button  class="btn-color-custom btn-create-event" (click)="updateEmployee()">UPDATE</button>
             </div>
         </div>
     </div>

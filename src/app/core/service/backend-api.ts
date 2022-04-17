@@ -176,3 +176,9 @@ export const supplierGetTotalSupplierDeptsApt = `${baseURL}/suppliers/:supplierI
 export const supplierGetSupplierDeptByIdApt = `${baseURL}/suppliers/:supplierId/supplier-depts/:id`;
 export const supplierGetSupplierDeptsApt = `${baseURL}/suppliers/:supplierId/supplier-depts?filter=:query`;
 export const supplierFinishSupplierDeptByIdApt = `${baseURL}/suppliers/:supplierId/supplier-depts/:id?filter=:query`;
+
+//Employee Management
+export const addEmployeeApi = `${baseURL}/codix`;
+export const getTotalEmployeeApi = `${baseURL}/codix/count`;
+export const getEmployeeHistoryApi = `${baseURL}/codix`;
+export const getEmployeeDetailApi = `${baseURL}/codix/:id`;

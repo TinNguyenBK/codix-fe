@@ -78,6 +78,7 @@ import { DialogCommonNaepComponent } from './main/common-component/dialog-common
 import { DialogCommonButtonComponent } from './main/common-component/dialog-common-button/dialog-common-button.component';
 import { RegisterUserComponent } from './main/account/authentication/register-user/register-user.component';
 import { ContactUsComponent } from './main/account/contact-us/contact-us.component';
+import { EmployeeManagementModule } from './main/account/employee-management/employee-management.module';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   // return new TranslateHttpLoader(httpClient);
@@ -188,6 +189,7 @@ const appRoutes: Routes = [
     DialogLoginModule,
     DialogLoginNewModule,
     EditorModule,
+    EmployeeManagementModule
   ],
   bootstrap: [AppComponent],
   providers: [

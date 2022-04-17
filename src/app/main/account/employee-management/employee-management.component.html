@@ -5,17 +5,22 @@
     </div>
   
     <div class="body">
-      <ag-grid-angular style="width: 100%; height: 610px;"
-        class="ag-theme-balham customers-all" [rowData]="employeeArray"
-        [paginationAutoPageSize]=true
-        [columnDefs]="columnDefs"
-        floatingFilter=true rowSelection="multiple"
-        (rowDoubleClicked)='onRowClickedChangeToEmployee($event)'
-        [singleClickEdit]=true
-        [defaultColDef]="defaultColDef"
-        (gridReady)="onGridReady($event)"
-        (gridSizeChanged)="onGridSizeChanged($event)"
-        [gridOptions]="gridOptions" [modules]="modules">
-      </ag-grid-angular>
+      <ag-grid-angular
+          style="width: 100%; height: 600px"
+          class="ag-theme-balham customers-all"
+          [rowData]="employees"
+          [columnDefs]="columnDefs"
+          [gridOptions]="gridOptions"
+          rowSelection="multiple"
+          (rowClicked)="onViewEmployeeDetail($event)"
+          (rowDoubleClicked)="onViewEmployeeDetail($event)"
+          [singleClickEdit]="true"
+          [defaultColDef]="defaultColDef"
+          [overlayLoadingTemplate]="loadingTemplate"
+          [overlayNoRowsTemplate]="loadingTemplate"
+          [pagination]="true"
+          (gridReady)="onGridActiveReady($event)"
+          (paginationChanged)="onPaginationChanged($event)"
+        ></ag-grid-angular>
     </div>
   </div>

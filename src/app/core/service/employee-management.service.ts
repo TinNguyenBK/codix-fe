@@ -1,14 +1,15 @@
-import { myProfileApi, changePasswordApi, profileGetPreSignedUrl, supplierProfileApi, userProfileApi,
-    colaboratorProfileApi, changePasswordColApi, changePasswordSupApi, profileGetPreSignedUrlSup, profileGetPreSignedUrlCol} from './backend-api';
+import { addEmployeeApi } from './backend-api';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError, retry } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { ChangePassword } from '../models/change-password.model';
-import { UpdateProfile } from '../models/update-profile.model';
+import { Observable, throwError } from 'rxjs';
 import { ApiService } from './api.service';
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
+import {
+    getTotalEmployeeApi, getEmployeeHistoryApi, getEmployeeDetailApi
+  } from './backend-api';
+import { IEmployeeQuery } from '../models/employee-management.model';
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +19,41 @@ export class EmployeeManagementService {
         private api: ApiService,
         private http: HttpClient,
         private router: Router) { }
+    
+    addEmployee(employeeInfor) {
+        return this.api.post(addEmployeeApi, employeeInfor).pipe(retry(3), catchError(this.errorHandler));
+    }
+
+    getTotalEmployee(): Observable<any> {
+        return this.api.getObservable(getTotalEmployeeApi);
+    }
+
+    getEmployeeHistory(): Observable<any> {
+        // const query = encodeURIComponent(JSON.stringify(data));
+        // const url = getEmployeeHistoryApi
+        //             .replace(':query', query);
+        // return this.api.getObservable(url).pipe();
+        return this.api.getObservable(getEmployeeHistoryApi); 
+    }
+
+    getEmployeeDetail(id): Observable<any> {
+        // const query = encodeURIComponent(JSON.stringify(data));
+        const url = getEmployeeDetailApi
+                    .replace(':id', id);
+        // return this.api.getObservable(url).pipe();
+        return this.api.getObservable(url).pipe();
+    }
+
+    updateEmployee(id, generalInfor){
+        let url = '';
+        url = getEmployeeDetailApi.replace(':id', id);
+        return this.http.patch<any>(url, generalInfor , {
+          headers: this.api.headers,
+          observe: "response",
+        });
+    }
+    
+    
     
     private errorHandler(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {

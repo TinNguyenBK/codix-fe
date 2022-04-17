@@ -14,8 +14,9 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { CalendarModule } from 'primeng/calendar';
 import {FormsModule} from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown'
-;import { AgGridModule } from "@ag-grid-community/angular";
+import { AgGridModule } from 'ag-grid-angular';
 import { NumberDirective } from './check-number.directive';
+import { DetailEmployeeComponent } from './detail-employee/detail-employee.component';
 
 const routes = [
     {
@@ -25,6 +26,10 @@ const routes = [
     {
         path     : 'add-employee',
         component: AddEmployeeComponent
+    },
+    {
+        path     : 'employee-detail',
+        component: DetailEmployeeComponent
     }
 ];
 
@@ -32,7 +37,8 @@ const routes = [
     declarations: [
         EmployeeManagementComponent,
         AddEmployeeComponent,
-        NumberDirective
+        NumberDirective,
+        DetailEmployeeComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -47,11 +53,11 @@ const routes = [
         CalendarModule,
         FormsModule,
         DropdownModule,
-        AgGridModule.withComponents([])
+        AgGridModule
     ],
     exports     : [
         EmployeeManagementComponent
     ],
-    providers: [CustomerService]
+    // providers: [CustomerService]
 })
 export class EmployeeManagementModule { }
