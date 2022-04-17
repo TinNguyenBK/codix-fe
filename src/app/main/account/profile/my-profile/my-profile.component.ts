@@ -99,7 +99,7 @@ export class MyProfileComponent implements OnInit {
         );
     }
     else {
-      this.router.navigate(["/login"]);
+      this.router.navigate(["/employee-management"]);
     }
   
     this.userInfoForm = this.formBuilder.group(

@@ -25,23 +25,23 @@ export class EmployeeManagementService {
     }
 
     getTotalEmployee(): Observable<any> {
-        return this.api.getObservable(getTotalEmployeeApi);
+        return this.http.get(getTotalEmployeeApi, {
+            observe: "response",
+        })
     }
 
     getEmployeeHistory(): Observable<any> {
-        // const query = encodeURIComponent(JSON.stringify(data));
-        // const url = getEmployeeHistoryApi
-        //             .replace(':query', query);
-        // return this.api.getObservable(url).pipe();
-        return this.api.getObservable(getEmployeeHistoryApi); 
+        return this.http.get(getEmployeeHistoryApi, {
+            observe: "response",
+        })
     }
 
     getEmployeeDetail(id): Observable<any> {
-        // const query = encodeURIComponent(JSON.stringify(data));
         const url = getEmployeeDetailApi
                     .replace(':id', id);
-        // return this.api.getObservable(url).pipe();
-        return this.api.getObservable(url).pipe();
+        return this.http.get(url, {
+            observe: "response",
+        })
     }
 
     updateEmployee(id, generalInfor){

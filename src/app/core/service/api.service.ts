@@ -17,7 +17,7 @@ export class ApiService {
     console.log( this.token )
     // User had logged but profile in localstorage had delete
     if (isNullOrUndefined(this.token) || this.token === 'Bearer null') {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/employee-management']);
       return false;
     } else {
       this.headers = new HttpHeaders({
