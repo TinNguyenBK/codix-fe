@@ -15,8 +15,6 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { AuthService } from '../../../core/service/auth.service';
 import { navigation } from 'app/navigation/navigation';
-
-import { CartService } from 'app/core/service/cart.service';
 import { isNullOrUndefined } from 'util';
 import { environment } from 'environments/environment';
 import * as jwtDecode from 'jwt-decode';
@@ -32,15 +30,9 @@ import { SocketService } from 'app/core/service/socket.service';
 import { Event } from './../../../core/enum/event';
 import { CommonDialogComponent } from 'app/main/common-dialog/common-dialog.component';
 import * as jwt_decode from 'jwt-decode';
-// import { NotifierService } from 'angular-notifier';
-// import { PubNubAngular } from 'pubnub-angular2';
-// import { NotificationSubscriptionService } from 'app/core/service/notificationSubcription.service';
-// import { NotificationService } from 'app/core/service/notification.service';
 import * as moment from 'moment';
-import { NotificationService } from 'app/core/service/notification.service';
 import { NotifierService } from 'angular-notifier';
 import { PubNubAngular } from 'pubnub-angular2';
-import { NotificationSubscriptionService } from 'app/core/service/notificationSubcription.service';
 
 @Component({
   selector: 'toolbar',
@@ -110,7 +102,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private _fuseSidebarService: FuseSidebarService,
     private _translateService: TranslateService,
     private authService: AuthService,
-    private _cartService: CartService,
     private sharedService: SharedService,
     @Inject(DOCUMENT) private document: Document,
     private myProfileService: MyProfileService,
@@ -118,10 +109,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private router: Router,
     private socketService: SocketService,
-    private notificationService: NotificationService,
     private notifier: NotifierService,
     private pubnub: PubNubAngular,
-    private notificationSubscriptionService: NotificationSubscriptionService
   ) {
    
     // Set the defaults
@@ -204,24 +193,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       //Decode token
       const decoded = jwtDecode(this.token);
       this.userId = decoded.mId;
-        this.myProfileService.getUserProfile().subscribe(
-          (response) => {
-            if (response.status === 200) {
-              this.supplierProfile = response.body;
-              if (!CheckNullOrUndefinedOrEmpty(this.supplierProfile.mAvatar)) {
-                this.avatarSup = this.supplierProfile.mAvatar;
-                this.userMenuImgUrl = "assets/images_codix/person-avatar.png";
-              } else {
-                this.userMenuImgUrl = "assets/images_codix/person-avatar.png"; 
-              }
-            } else {
-              this.userMenuImgUrl = "assets/images_codix/person-avatar.png";
-            }
-          },
-          (err) => {
-            this.userMenuImgUrl = "assets/images_codix/person-avatar.png";
-          }
-        );
       //change UserMenu profile photo, get new photo key
       this.toolBarService.change.subscribe((newPhotoKey) => {
         this.new_photo_key = newPhotoKey;
@@ -282,38 +253,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   getTotalNotifications(): void {
-    this.notificationService.getTotalNotifications({}).subscribe((res) => {
-      if (res.status === 200) {
-        this.totalNotification = res.body.count;
-      }
-    });
+   
   }
 
   getNotifications(): void {
-    this.notificationService
-      .getNotifications({ order: 'mCreated DESC' })
-      .subscribe((res) => {
-        if (res.status === 200) {
-          this.notifications = res.body || [];
-        }
-      });
+   
   }
 
   markAllNotificationsAsRead(): void {
-    if (this.notifications.length === 0) {
-      return;
-    }
-    this.notificationService.markAllNotificationsAsRead().subscribe(
-      (res) => {
-        if (res.status >= 200 && res.status < 300) {
-          this.getTotalNotifications();
-          this.getNotifications();
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    
   }
 
   markNotificationAsRead(notiId): void {
@@ -323,49 +271,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     if (isNotiRead !== -1) {
       return;
     }
-    this.notificationService.markNotificationAsRead(notiId).subscribe(
-      (res) => {
-        if (res.status >= 200 && res.status < 300) {
-          this.getTotalNotifications();
-          this.getNotifications();
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
   }
 
   deleteNotification(notiId): void {
-    this.notificationService.deleteNotification(notiId).subscribe(
-      (res) => {
-        console.log('res: ', res);
-        if (res.status >= 200 && res.status < 300) {
-          this.getTotalNotifications();
-          this.getNotifications();
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
   }
 
   deleteAllNotifications(): void {
-    if (this.notifications.length === 0) {
-      return;
-    }
-    this.notificationService.deleteAllNotifications().subscribe(
-      (res) => {
-        if (res.status >= 200 && res.status < 300) {
-          this.totalNotification = 0;
-          this.notifications = [];
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
   }
 
   convertTime(date): string {
@@ -428,7 +339,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     //update language
     if (!isNullOrUndefined(this.token)) {
-      this.authService.changeLanguage(id).subscribe();
     }
 
     this.language = id;

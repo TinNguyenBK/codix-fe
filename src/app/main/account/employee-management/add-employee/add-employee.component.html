@@ -15,7 +15,7 @@
        
         <div class="fill-input">
             <p>Full name</p>
-            <input formControlName="fullName" type="text" placeholder="Enter full name">  
+            <input formControlName="fullName" type="text" placeholder="Enter full name" pInputText>  
             <mat-error class="error-message" 
               *ngIf = "generalInforForm.get('fullName').hasError('required') && isSubmit">
               Please enter full name.
@@ -44,7 +44,7 @@
 
         <div class="fill-input">
             <p>Salary</p>
-            <input formControlName="salary" type="text" placeholder="Enter salary" numbersOnly>
+            <input formControlName="salary" type="text" placeholder="Enter salary" numbersOnly pInputText>
             <mat-error class="error-message" 
               *ngIf = "generalInforForm.get('salary').hasError('required') && isSubmit">
               Please enter salary.
@@ -53,7 +53,7 @@
 
         <div class="fill-input">
             <p>Vacation days</p>
-            <input formControlName="vacationDate" type="text" placeholder="Enter salary" numbersOnly>
+            <input formControlName="vacationDate" type="text" placeholder="Enter salary" numbersOnly pInputText>
             <mat-error class="error-message" 
               *ngIf = "generalInforForm.get('vacationDate').hasError('required') && isSubmit">
               Please enter vacation days.

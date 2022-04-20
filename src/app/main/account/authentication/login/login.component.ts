@@ -112,45 +112,6 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.value.password
     }
     this.loginForm.value.email = this.loginForm.value.email.trim().toLowerCase();
-    this._authenticationService.loginUser(loginForm).subscribe(
-      response => {
-        if(response.status == 200 ) {
-          if (!CheckNullOrUndefinedOrEmpty(response.body.token)) {
-            this.decoded = jwt_decode(response.body.token);
-            this.active = false;
-            this.buttonName= 'LOG IN';
-            if (!CheckNullOrUndefinedOrEmpty(this.decoded)){
-              if(this.isRemember == true){
-                localStorage.setItem("token", response.body.token);
-                localStorage.setItem("isRemember", 'true');
-                this.router.navigate(["/my-profile"]);
-              }
-              else {
-                sessionStorage.setItem("token", response.body.token);
-                this.router.navigate(["/my-profile"]);
-                localStorage.removeItem("isRemember");
-              }
-
-            }
-          }
-        }
-      },
-      error => {
-        this.active = false;
-        this.buttonName= 'LOG IN';
-        const dialogNotifi = this.dialog.open(CommonDialogComponent, {
-          width: "500px",
-          data: {
-            message: error.error.error.details.message,
-            title: "NOTIFICATION",
-            colorButton: false
-          },
-        });
-        dialogNotifi.afterClosed().subscribe(data =>
-        {
-          return
-        })
-    });
   }
 
   getLanguge(language) {

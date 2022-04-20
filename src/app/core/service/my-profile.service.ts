@@ -1,5 +1,4 @@
-import { myProfileApi, changePasswordApi, profileGetPreSignedUrl, supplierProfileApi, userProfileApi,
-    colaboratorProfileApi, changePasswordColApi, changePasswordSupApi, profileGetPreSignedUrlSup, profileGetPreSignedUrlCol} from './backend-api';
+import { myProfileApi, changePasswordApi, profileGetPreSignedUrl,} from './backend-api';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { catchError, retry } from 'rxjs/operators';
@@ -7,8 +6,6 @@ import { throwError } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
-import { ChangePassword } from '../models/change-password.model';
-import { UpdateProfile } from '../models/update-profile.model';
 
 import { ApiService } from './api.service';
 import { Router } from '@angular/router';
@@ -27,18 +24,6 @@ export class MyProfileService {
         return this.api.get(myProfileApi).pipe(retry(3), catchError(this.errorHandler));
     }
 
-    updateProfile(updateProfile: UpdateProfile) {
-        // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
-        // return this.http.post<UpdateProfile>(`${myProfileApi}`, updateProfile, { headers: reqHeaders }).pipe(retry(3), catchError(this.errorHandler));
-        return this.api.post(myProfileApi, updateProfile).pipe(retry(3), catchError(this.errorHandler));
-    }
-
-
-    changePassword(changePassword: ChangePassword) {
-        // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
-        // return this.http.post<any>(`${changePasswordApi}`, changePassword, { headers: reqHeaders }).pipe(retry(3), catchError(this.errorHandler));
-        return this.api.post(changePasswordApi, changePassword).pipe(retry(3), catchError(this.errorHandler));
-    }
 
     getPreSignedUrl(fileName: string, fileType: string) {
         // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
@@ -53,30 +38,6 @@ export class MyProfileService {
     uploadProfileImage(url: string, contentType: string, file) {
         const headers = new HttpHeaders({ 'Content-Type': contentType });
         return this.http.put<any>(url, file, { headers: headers, reportProgress: true }).pipe(retry(3), catchError(this.errorHandler));
-    }
-
-    getUserProfile(){
-        return this.api.getObservable(userProfileApi)
-    }
-
-    updateUserProfile(updateUserProfile) {
-        return this.http.patch<any>(userProfileApi, updateUserProfile, {
-            headers: this.api.headers,
-            observe: "response",
-        });
-    }
-
-    // registerUser(registerForm) {
-    //     return this.http.post<any>(registerUserrApi, registerForm , {
-    //       headers: this.api.headers,
-    //       observe: "response",
-    //     });
-    //   }
-
-    changePasswordSup(changePassword: ChangePassword) {
-        // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
-        // return this.http.post<any>(`${changePasswordApi}`, changePassword, { headers: reqHeaders }).pipe(retry(3), catchError(this.errorHandler));
-        return this.api.patchObservable(userProfileApi, changePassword);
     }
 
 

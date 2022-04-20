@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { TitleModule } from 'app/main/common-component/title/title.module';
 import { EmployeeManagementComponent } from './employee-management.component';
 import { TableModule } from 'primeng/table';
-import {ButtonModule} from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { CustomerService } from './data/employee.service';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { CalendarModule } from 'primeng/calendar';
@@ -44,7 +44,7 @@ const routes = [
         RouterModule.forChild(routes),
         TranslateModule,
         FuseSharedModule,
-        MaterialModule,
+        // MaterialModule,
         AlertModule,
         CommonModule,
         TitleModule,

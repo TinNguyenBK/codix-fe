@@ -62,7 +62,6 @@ import { DialogConfirmComponent } from './main/common-component/dialog-confirm/d
 
 import { PlaceholderLoadingModule } from './main/common-component/placeholder-loading/placeholder-loading.module';
 import { Observable, from } from 'rxjs';
-import { NoCacheHeadersInterceptor } from './core/service/no-cache-service';
 
 //My Customers
 import { DialogLoginModule } from './main/common-component/dialog-login/dialog-login.component.module';
@@ -196,11 +195,6 @@ const appRoutes: Routes = [
     SharedService,
     BnNgIdleService,
     DatePipe,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: NoCacheHeadersInterceptor,
-      multi: true,
-    },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,

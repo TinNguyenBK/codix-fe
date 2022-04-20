@@ -6,7 +6,6 @@ import {
 } from '@angular/forms';
 import { MustMatch } from '../../authentication/_helper/must-match.validator';
 import { MyProfileService } from '../../../../core/service/my-profile.service';
-import { ChangePassword } from '../../../../core/models/change-password.model';
 import { Router} from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import Swal from 'sweetalert2';
@@ -77,26 +76,6 @@ export class MyProfileComponent implements OnInit {
   ngOnInit(): void {
     this.token =  localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!CheckNullOrUndefinedOrEmpty(this.token)) {
-      this.decoded = jwt_decode(this.token);
-        this.myProfileService.getUserProfile().subscribe(response => {
-          this.isChange = false
-          if (response.status === 200) {
-           this.router.navigate(["/my-profile"]);
-           this.userProfile = response.body
-           this.nickname = this.userProfile.nickname
-           this.email = this.userProfile.email
-           this.id = this.userProfile.id
-           this.phone = this.userProfile.phone
-           this.countryDisplay = this.userProfile.country
-           this.listArea.forEach(i => {
-             if(i.mDisplayName ==  this.countryDisplay) {
-              this.country = i
-             }
-           })
-          } else {
-          }
-        }, err => {}
-        );
     }
     else {
       this.router.navigate(["/employee-management"]);
@@ -187,68 +166,9 @@ export class MyProfileComponent implements OnInit {
   }
   
   saveNewUserInfo(): void {
-   this.is_summitted = true;
-    let conformUserInfo = {
-      nickname: this.userInfoForm.get('nickname').value,
-      phone: this.userInfoForm.get('phone').value,
-      country: this.userInfoForm.get('country').value.mDisplayName,
-    }
-    this.myProfileService.updateUserProfile(conformUserInfo).subscribe(response => {
-      console.log(response)
-      if(response.status == 204){
-        this.isUserInfoEditing = false;
-      };
-    },
-    error => {
-      const dialogNotifi = this.dialog.open(CommonDialogComponent, {
-        width: "500px",
-        data: {
-          message: error.error.error.details.message,
-          title: "NOTIFICATION",
-          colorButton: false
-        },
-      });
-      dialogNotifi.afterClosed().subscribe(data =>
-      {
-        return
-      })
-      }
-    );
-    this.nickname = this.userInfoForm.get('nickname').value;
-    this.phone = this.userInfoForm.get('phone').value;
-    this.countryDisplay = this.userInfoForm.get('country').value.mDisplayName
   }
 
   saveNewPassword(): void {
-    const changePassword: ChangePassword = new ChangePassword(
-      // this.changePasswordForm.get('oldpassword').value,
-      this.changePasswordForm.get('password').value,
-    );
-
-    this.myProfileService.changePasswordSup(changePassword).subscribe(response => {
-      if (response.status === 201) {
-        this.wrongOldPassword = true;
-        // this.changePasswordForm.get('oldpassword').markAsPristine();
-      }
-
-      if (response.status === 204) {
-        this.wrongOldPassword = false;
-        Swal.fire({
-          text: 'Change password successfully!',
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000,
-        });
-        setTimeout(() => { this.isPasswordChangingCol = false; }, 500);
-        this.isPasswordChanging = false;
-      }
-    },error => {
-      Swal.fire({
-        title: 'Can not change password!',
-        text: error.error.error.details.message,
-      });
-      this.isPasswordChanging = false;
-    });
 
   }
 

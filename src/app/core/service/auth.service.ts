@@ -4,13 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse, } from '@angular/com
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ApiService } from './api.service';
-import {
-  checkExistApi, otpApi, verifyOtpApi, loginUserApi, registerApi, cartApi,resentEmailApi,
-  verifyEmailApi, activateEmailApi, getAdvisorApi, updateAdvisorApi,
-  forgotPasswordApi, verifyForgotPasswordTokenApi, resetPasswordApi, 
-  changeLanguages, decryptToken, 
-   changeEditEmailApi, activePhoneApi,
-  getAreaApi, registerUserrApi, registerColaboratorApi, loginColaboratorApi, certificateGetPreSignedUrlSup,
+import { resentEmailApi, activateEmailApi,
+  forgotPasswordApi, verifyForgotPasswordTokenApi, resetPasswordApi, decryptToken, 
   checkEmailExistingApi
 } from './backend-api';
 import { ResetPassword } from '../../core/models/reset-password.model';
@@ -28,48 +23,12 @@ export class AuthService {
     private api: ApiService
   ) { }
 
-  register(registerForm) {
-    return this.http.post<any>(registerApi, registerForm);
-  }
-
-  verify(verifyEmailData) {
-    return this.http.post<any>(verifyEmailApi, verifyEmailData);
-  }
 
   logout() {
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
   }
 
-  GetOtp(phoneNumber: string) {
-    let url = otpApi.replace(':phoneNumber', phoneNumber);
-    return this.http.post<any>(url, '');
-  }
-
-  VerifyOTP(uuid: string, otp: string) {
-    let url = verifyOtpApi.replace(':UUID', uuid).replace(':OTP', otp);
-    return this.http.post<any>(url, '');
-  }
-
-  activePhone(token: string, email: string, uuid:string) : Observable<any>{
-    // let param = new HttpParams();
-    // param = param.append('token',token);
-    // param = param.append('email',email);
-    // param = param.append('uuid',uuid);
-    return this.http.post(activePhoneApi,{token, email, uuid}).pipe(
-      map(data=>{
-     
-        return data;
-      })
-    )
-    // var url = activateEmailApi.replace(':id', token);
-    // return this.http.get<any>(url);
-  }
-
-  // verifyUserEmail(token: string) {
-  //   var url = activateEmailApi.replace(':id', token);
-  //   return this.http.get<any>(url);
-  // }
 
   verifyUserEmail(token: string) : Observable<any>{
     let param = new HttpParams();
@@ -80,8 +39,6 @@ export class AuthService {
         return data;
       })
     )
-    // var url = activateEmailApi.replace(':id', token);
-    // return this.http.get<any>(url);
   }
 
 
@@ -89,21 +46,6 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  checkExist(checkExistForm) {
-    return this.http.post<any>(checkExistApi, checkExistForm)
-  }
-  //Get Advisor
-  getAdvisor(advisorId: string) {
-    return this.http.get<any>(`${getAdvisorApi}/${advisorId}`);
-  }
-
-  /**
-   * Update advisor
-   */
-  updateAdvisor(advisorId: string) {
-    var url = updateAdvisorApi.replace(':id', advisorId);
-    return this.api.post(url, '');
-  }
 
   forgotPassword(mEmail: string) {
     return this.http.patch<any>(forgotPasswordApi, { mEmail }, {observe: 'response'});
@@ -123,20 +65,6 @@ export class AuthService {
     url = url.replace(':token1', data.token1);
     url = url.replace(':token2', data.token2);
     return this.http.patch<any>(url, {mPassword: data.mPassword}, {observe: 'response'});
-  }
-
-
-  changeLanguage(language): Observable<any> {
-    let param = new HttpParams();
-    if (!isNullOrUndefined(language)) {
-      param = param.append('language', language);
-
-      if (this.api.isEnable()) {
-        return this.http.post<any>(changeLanguages, '', { headers: this.api.headers, params: param }).pipe(
-          map((value) => { }), catchError(value => throwError(value))
-        );
-      }
-    }
   }
 
   decryptTokenData(token: string) {
@@ -167,66 +95,6 @@ export class AuthService {
         return data;
       })
     )
-  }
-
-
-
-  changeEditEmail(phoneNumber, phoneDialCode):Observable<any> {
-    let param = new HttpParams();
-    param = param.append('phone_number', phoneNumber);
-    param = param.append('phone_dial_code', phoneDialCode);
-
-    return this.http.put(changeEditEmailApi, '', {params : param}).pipe(
-      map(data =>{
-        return data;
-      })
-    )
-  }
-
-
-
-  getArea():Observable<any> {
-      return this.http.get<any>(getAreaApi).pipe(
-        map(response =>{
-          return response;
-        })
-      )
-  }
-
-
-  registerUser(registerForm) {
-    return this.http.post<any>(registerUserrApi, registerForm , {
-      headers: this.api.headers,
-      observe: "response",
-    });
-  }
-
-  loginUser(loginForm) {
-    return this.http.post<any>(loginUserApi, loginForm,{
-      headers: this.api.headers,
-      observe: "response",
-    });
-  }
-
-
-  registerColaborator(registerForm) {
-    return this.http.post<any>(registerColaboratorApi, registerForm , {
-      headers: this.api.headers,
-      observe: "response",
-    });
-  }
-
-  loginColaborator(loginForm) {
-    return this.http.post<any>(loginColaboratorApi, loginForm,{
-      headers: this.api.headers,
-      observe: "response",
-    });
-  }
-
-  uploadCertificate(fileName: string, fileType: string){
-    // const reqHeaders = new HttpHeaders({ Authorization: `Bearer ${this.accessToken.customer100}` });
-    const bodyObj = { name: fileName, ext: fileType };
-    return this.api.postObservableNo(certificateGetPreSignedUrlSup, bodyObj)
   }
 
   uploadFiletoS3(url: string, contentType: string, file){

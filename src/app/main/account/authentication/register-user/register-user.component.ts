@@ -123,26 +123,6 @@ export class RegisterUserComponent implements OnInit {
       password: this.registerForm.value.password,
       country: this.registerForm.value.country.mDisplayName,
     }
-
-    this.authService.registerUser(user).subscribe(response => {
-      if(response.status === 200) {
-        localStorage.setItem("token", response.body.token)
-        this.router.navigate(["/auth/register-supplier-done"], { queryParams: { email: this.registerForm.value.mEmail }});
-      }
-    },error => {
-      const dialogNotifi = this.dialog.open(CommonDialogComponent, {
-        width: "500px",
-        data: {
-          message: error.error.error.details.message,
-          title: "NOTIFICATION",
-          colorButton: false
-        },
-      });
-      dialogNotifi.afterClosed().subscribe(data =>
-      {
-        return
-      })
-    });
   }
 
   uploadPage() {
