@@ -1,26 +1,31 @@
-<div class="customers">
+<div class="employees">
     <div class="title">
       <p>Employee list</p>
-      <button mat-raised-button (click)="add()">Add employee</button>
+      <button pButton pRipple type="button" label="Add employee" class="p-button-raised" (click)="add()"></button>
     </div>
   
     <div class="body">
-      <ag-grid-angular
-          style="width: 100%; height: 600px"
-          class="ag-theme-balham customers-all"
-          [rowData]="employees"
-          [columnDefs]="columnDefs"
-          [gridOptions]="gridOptions"
-          rowSelection="multiple"
-          (rowClicked)="onViewEmployeeDetail($event)"
-          (rowDoubleClicked)="onViewEmployeeDetail($event)"
-          [singleClickEdit]="true"
-          [defaultColDef]="defaultColDef"
-          [overlayLoadingTemplate]="loadingTemplate"
-          [overlayNoRowsTemplate]="loadingTemplate"
-          [pagination]="true"
-          (gridReady)="onGridActiveReady($event)"
-          (paginationChanged)="onPaginationChanged($event)"
-        ></ag-grid-angular>
+      <p-table [value]="employees">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Full Name</th>
+                <th>Experience level</th>
+                <th>Starting date</th>
+                <th>Salary</th>
+                <th>Vacation days</th>
+                <th>Status</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-employee>
+            <tr>
+                <td>{{employee.fullName}}</td>
+                <td>{{employee.experienceLevel}}</td>
+                <td>{{employee.startingDate}}</td>
+                <td>{{employee.salary}}</td>
+                <td>{{employee.vacationDays}}</td>
+                <td>{{employee.status}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
     </div>
   </div>

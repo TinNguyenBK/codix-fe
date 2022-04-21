@@ -5,7 +5,6 @@ import { DialCodeModule } from './authentication/dial-code/dial-code.module'
 import { DropdownModule } from 'primeng/dropdown';
 
 import { ContactUsModule } from './contact-us/contact-us.module';
-import { TermAndConditionModule } from './term-and-condition/term-and-condition.module';
 import { ResentEmailModule } from './authentication/resent-email/resent-email.module';
 import { RegisterUserModule } from './authentication/register-user/register-user.module';
 import { EmployeeManagementModule } from './employee-management/employee-management.module';
@@ -17,7 +16,6 @@ import { EmployeeManagementModule } from './employee-management/employee-managem
         DialCodeModule,
         DropdownModule,
         ContactUsModule,
-        TermAndConditionModule,
         ResentEmailModule,
         RegisterUserModule,
         EmployeeManagementModule

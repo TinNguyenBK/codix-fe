@@ -1,7 +1,6 @@
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { FuseSharedModule } from '@fuse/shared.module';
-import { MaterialModule } from 'app/main/angular-material/material.module';
 import { AlertModule } from 'app/main/_shared/alert/alert.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,7 +8,6 @@ import { TitleModule } from 'app/main/common-component/title/title.module';
 import { EmployeeManagementComponent } from './employee-management.component';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { CustomerService } from './data/employee.service';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { CalendarModule } from 'primeng/calendar';
 import {FormsModule} from '@angular/forms';
@@ -17,6 +15,8 @@ import { DropdownModule } from 'primeng/dropdown'
 import { AgGridModule } from 'ag-grid-angular';
 import { NumberDirective } from './check-number.directive';
 import { DetailEmployeeComponent } from './detail-employee/detail-employee.component';
+import { MessagesModule } from "primeng/messages";
+import { MessageModule } from "primeng/message";
 
 const routes = [
     {
@@ -44,7 +44,6 @@ const routes = [
         RouterModule.forChild(routes),
         TranslateModule,
         FuseSharedModule,
-        // MaterialModule,
         AlertModule,
         CommonModule,
         TitleModule,
@@ -53,11 +52,12 @@ const routes = [
         CalendarModule,
         FormsModule,
         DropdownModule,
-        AgGridModule
+        AgGridModule,
+        MessagesModule,
+        MessageModule,
     ],
     exports     : [
         EmployeeManagementComponent
     ],
-    // providers: [CustomerService]
 })
 export class EmployeeManagementModule { }
